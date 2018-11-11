@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import br.com.rateshare.R;
 
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
