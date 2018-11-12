@@ -7,5 +7,8 @@
     <color name="edtBgWhite">#ffffff</color>
     <color name="btnEntrar">#3f3e3e</color>
     <color name="colorBtn">#c9c9c7</color>
+    <color name="colorBtnCadastrar">#cc320f</color>
+    <color name="colorBtnFacebook">#2f52a5</color>
+    <color name="colorBtnTwt">#488fd0</color>
 
 </resources>
