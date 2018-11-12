@@ -9,6 +9,13 @@
     <color name="colorBtn">#c9c9c7</color>
     <color name="colorBtnCadastrar">#cc320f</color>
     <color name="colorBtnFacebook">#2f52a5</color>
-    <color name="colorBtnTwt">#488fd0</color>
+    <color name="btnEntrarPress">#999999</color>
+    <color name="btnEntrarNotPress">#3f3e3e</color>
+    <color name="btnCadastrarPress">#cc320f</color>
+    <color name="btnCadastrarNotPress">#cc320f</color>
+    <color name="btnFacebookPress">#2f52a5</color>
+    <color name="btnCFacebookNotPress">#2f52a5</color>
+    <color name="btnTwtPress">#488fd0</color>
+    <color name="btnTwtNotPress">#488fd0</color>
 
 </resources>

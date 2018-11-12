@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "titulo": "Vinho Sangue de Boi",
+      "imagem": "@mipmap/logo_4_simple",
+      "categoria": "Bebidas",
+      "rate": "5",
+      "descricao" : "Sabor Encorpado",
+      "avaliacoes" : "115"
+    },
+    {
+      "titulo": "Pampulha",
+      "imagem": "@mipmap/logo_4_simple",
+      "categoria": "Lugares",
+      "rate": "4",
+      "descricao" : "Lugar Muito Bonito",
+      "avaliacoes" : "21"
+    }
+  ]
+}
