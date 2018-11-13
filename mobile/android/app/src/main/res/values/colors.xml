@@ -17,5 +17,9 @@
     <color name="btnCFacebookNotPress">#2f52a5</color>
     <color name="btnTwtPress">#488fd0</color>
     <color name="btnTwtNotPress">#488fd0</color>
+    <color name="bannerImg">#815187</color>
+    <color name="labelCate">#752280</color>
+    <color name="star1Color">#c4c498</color>
+    <color name="star2Color">#e1e100</color>
 
 </resources>

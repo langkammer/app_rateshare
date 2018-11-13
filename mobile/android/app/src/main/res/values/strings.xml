@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Rate &amp; Share</string>
+    <string name="titulo">Titulo</string>
+    <string name="categoria">Categoria</string>
+    <string name="awesome_button">Awesome Button</string>
+    <string name="num_avaliacoes">Num Avaliacoes</string>
 </resources>
