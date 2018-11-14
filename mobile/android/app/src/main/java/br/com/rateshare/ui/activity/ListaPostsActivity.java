@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -14,7 +14,6 @@ import java.util.List;
 import br.com.rateshare.R;
 import br.com.rateshare.model.Post;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
-import br.com.rateshare.ui.helper.callback.PostItemTouchHelperCallback;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
 
 public class ListaPostsActivity extends AppCompatActivity {
@@ -40,6 +39,11 @@ public class ListaPostsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
 
     private void vaiParaFormularioNotaActivityInsere() {
