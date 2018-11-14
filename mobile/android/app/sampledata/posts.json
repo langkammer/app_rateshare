@@ -1,16 +1,16 @@
 {
   "posts": [
     {
-      "titulo": "Vinho Sangue de Boi",
-      "imagem": "@mipmap/logo_4_simple",
-      "categoria": "Bebidas",
+      "titulo": "Belo Horizonte",
+      "imagem": "@drawable/belo_horizonte_mg",
+      "categoria": "Lugares",
       "rate": "5",
-      "descricao" : "Sabor Encorpado",
+      "descricao" : "Lugar Lindo",
       "avaliacoes" : "115"
     },
     {
-      "titulo": "Pampulha",
-      "imagem": "@mipmap/logo_4_simple",
+      "titulo": "Rio de Janeiro",
+      "imagem": "@drawable/rio_de_janeiro_rj",
       "categoria": "Lugares",
       "rate": "4",
       "descricao" : "Lugar Muito Bonito",

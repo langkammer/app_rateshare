@@ -100,9 +100,11 @@ public class ListaPostsActivity extends AppCompatActivity {
     }
 
     private void configuraItemTouchHelper(RecyclerView listaNotas) {
-        ItemTouchHelper itemTouchHelper =
-                new ItemTouchHelper(new PostItemTouchHelperCallback(adapter));
-        itemTouchHelper.attachToRecyclerView(listaNotas);
+
+        // configura deslize
+//        ItemTouchHelper itemTouchHelper =
+//                new ItemTouchHelper(new PostItemTouchHelperCallback(adapter));
+//        itemTouchHelper.attachToRecyclerView(listaNotas);
     }
 
     private void configuraAdapter(List<Post> todosPosts, RecyclerView listaPosts) {
@@ -128,7 +130,7 @@ public class ListaPostsActivity extends AppCompatActivity {
 
         Post post;
 
-        for(int i = 0; i <= 10; i++){
+        for(int i = 1; i <= 3; i++){
 
             post = new Post();
 
@@ -138,11 +140,34 @@ public class ListaPostsActivity extends AppCompatActivity {
 
             post.setNumAvaliacoes("115 Avaliações");
 
-            post.setImagem("@drawable/belo_horizonte_mg");
+            switch (i){
+                case 1:
+                    post.setCategoria("Lugares");
+                    post.setDescricao("Teste descricao 1");
+                    post.setNumAvaliacoes("200 Avaliações");
+                    post.setImagem("@drawable/belo_horizonte_mg");
+                    post.setRate("5");
+                    post.setTitulo("Belo Horizonte");
+                    break;
+                case 2:
+                    post.setCategoria("Bebidas");
+                    post.setDescricao("Vinho Sangue de Boi");
+                    post.setNumAvaliacoes("12 Avaliações");
+                    post.setImagem("@drawable/saungeboi");
+                    post.setRate("5");
+                    post.setTitulo("Vinho Sangue de Boi");
+                    break;
+                case 3:
+                    post.setCategoria("Comidas");
+                    post.setDescricao("Picanha Top");
+                    post.setNumAvaliacoes("750 Avaliações");
+                    post.setImagem("@drawable/picanha");
+                    post.setRate("5");
+                    post.setTitulo("Picanha TOP +++");
+                    break;
+            }
 
-            post.setRate("5");
 
-            post.setTitulo("Teste" + i);
 
             listPosts.add(post);
 
