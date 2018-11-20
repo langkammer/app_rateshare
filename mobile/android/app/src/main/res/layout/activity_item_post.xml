@@ -1,194 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="250dp">
+    android:layout_height="wrap_content">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="1dp">
+    <android.support.v7.widget.CardView
+        android:id="@+id/item_pacote_cardview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/item_post_imagem"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:contentDescription="@string/todo"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@sample/posts.json/posts/imagem" />
-
-        <ImageView
-            android:id="@+id/item_banner"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:alpha="0.99"
-            android:contentDescription="@string/todo"
-            android:cropToPadding="true"
-            app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/item_post_imagem"
-            app:srcCompat="@color/bannerImg" />
-
-        <TextView
-            android:id="@+id/item_post_titulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/titulo"
-            android:textAllCaps="false"
-            android:textColor="@color/edtBgWhite"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/item_banner"
-            app:layout_constraintEnd_toStartOf="@+id/item_card_cat"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/item_banner"
-            app:layout_constraintTop_toTopOf="@+id/item_banner"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/item_card_cat"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:alpha=".75"
-            app:cardBackgroundColor="@color/labelCate"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/item_banner"
-            app:layout_constraintEnd_toEndOf="@+id/item_banner"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/item_banner"
-            app:layout_constraintTop_toTopOf="@+id/item_post_imagem">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/item_post_categoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="8sp"
-                    android:text="@string/categoria"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:textColor="@color/cardview_light_background"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.48000002" />
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <RatingBar
-            android:id="@+id/item_rate_bar"
-            style="@style/Widget.AppCompat.RatingBar.Indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="4dp"
-            android:numStars="5"
-            android:rating="3"
-            android:stepSize="1"
-            app:layout_constraintBottom_toBottomOf="@+id/item_post_imagem"
-            app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/item_post_imagem"
-            app:layout_constraintTop_toTopOf="@+id/item_banner"
-            app:layout_constraintVertical_bias="0.22000003" />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/input_card_item"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:alpha="0.99"
-            android:background="@drawable/btn_ripple_facebook_share"
-            app:cardBackgroundColor="@color/bannerImg"
-            app:layout_constraintBottom_toBottomOf="@+id/item_post_imagem"
-            app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="1dp">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:background="@color/bannerImg">
-
-                <RatingBar
-                    android:id="@+id/input_rating"
-                    style="@android:style/Widget.Material.RatingBar.Indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:numStars="5"
-                    android:rating="4"
-                    android:stepSize="1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
-                    tools:targetApi="lollipop" />
-
-                <TextView
-                    android:id="@+id/item_num_avaliacoes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/num_avaliacoes"
-                    android:textColor="@color/edtBgWhite"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/input_rating" />
-
-                <Button
-                    android:id="@+id/share_facebook"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:background="@drawable/btn_ripple_facebook_share"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.56"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v7.widget.CardView>
+            <ImageView
+                android:id="@+id/item_post_imagem"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:contentDescription="@string/todo"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                android:background="@color/edtBgWhite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@sample/posts.json/posts/imagem" />
 
 
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/item_card_cat"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:contentDescription="@string/todo"
+                app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
+                app:layout_constraintTop_toTopOf="@+id/item_post_imagem"
+                app:srcCompat="@drawable/shape_cat" />
 
-</android.support.v7.widget.CardView>
+            <ImageView
+                android:id="@+id/item_card_titulo"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:alpha="0.90"
+                android:contentDescription="@string/todo"
+                app:layout_constraintStart_toStartOf="@+id/item_post_imagem"
+                app:layout_constraintTop_toTopOf="@+id/item_post_imagem"
+                app:srcCompat="@drawable/shape_titulo" />
+
+            <TextView
+                android:id="@+id/item_post_categoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:text="@string/categoria"
+                android:textColor="@color/edtBgWhite"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/item_card_cat"
+                app:layout_constraintEnd_toEndOf="@+id/item_card_cat"
+                app:layout_constraintStart_toStartOf="@+id/item_card_cat"
+                app:layout_constraintTop_toTopOf="@+id/item_card_cat" />
+
+            <TextView
+                android:id="@+id/item_post_titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/titulo"
+                android:textColor="@color/edtBgWhite"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/item_card_titulo"
+                app:layout_constraintEnd_toEndOf="@+id/item_card_titulo"
+                app:layout_constraintHorizontal_bias="0.11"
+                app:layout_constraintStart_toStartOf="@+id/item_card_titulo"
+                app:layout_constraintTop_toTopOf="@+id/item_card_titulo" />
+
+            <ImageView
+                android:id="@+id/item_post_detail"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.90"
+                android:contentDescription="@string/todo"
+                app:layout_constraintBottom_toBottomOf="@+id/item_post_imagem"
+                app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
+                app:layout_constraintStart_toStartOf="@+id/item_post_imagem"
+                app:srcCompat="@drawable/shape_detail" />
+
+            <TextView
+                android:id="@+id/item_num_avaliacoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/num_avaliacoes"
+                android:textColor="@color/edtBgWhite"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/item_post_detail"
+                app:layout_constraintStart_toStartOf="@+id/item_post_detail"
+                app:layout_constraintTop_toTopOf="@+id/item_post_detail"
+                app:layout_constraintVertical_bias="0.51" />
+
+            <RatingBar
+                android:id="@+id/item_rating_bar"
+                style="@android:style/Widget.DeviceDefault.Light.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:animationResolution="@android:integer/config_mediumAnimTime"
+                android:fadingEdge="vertical"
+                android:numStars="5"
+                android:rating="5"
+                android:stepSize="1"
+                android:theme="@style/RatingBar"
+                app:layout_constraintBottom_toBottomOf="@+id/item_post_imagem"
+                app:layout_constraintEnd_toEndOf="@+id/item_post_detail"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/item_post_detail"
+                app:layout_constraintTop_toTopOf="@+id/item_post_detail"
+                app:layout_constraintVertical_bias="1.0" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

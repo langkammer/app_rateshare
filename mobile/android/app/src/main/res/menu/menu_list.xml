@@ -1,21 +1,23 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:gravity="end"
-android:layoutDirection="rtl"
-android:layout_gravity="end">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
-<group android:checkableBehavior="single"
-       android:layout_gravity="end"
-       android:gravity="end">
+        <!-- "Mark Favorite", should appear as action button if possible -->
 
-        <item
-            android:id="@+id/menu_item_filter"
-            android:checkable="true"
-            android:enabled="true"
-            android:gravity="end"
-            android:icon="@drawable/ic_dehaze_black_24dp"
-            android:title="Menu File"
-            app:showAsAction="always" />
+        <!-- Settings, should always be in the overflow -->
 
-</group>
+        <group>
+                <item
+                    android:id="@+id/menu_form_opcao"
+                    android:icon="@drawable/ic_reorder_black_24dp"
+                    android:title="Menu Opcao"
+                    android:visible="true"
+                    app:showAsAction="always" />
+        </group>
+        <group app:showAsAction="always">
+                <item
+                    android:id="@+id/menu_foto"
+                    android:icon="@drawable/ic_photo_camera_black_24dp"
+                    android:title="Tirar Foto"
+                    app:showAsAction="always" />
+        </group>
 </menu>

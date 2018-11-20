@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -71,6 +72,7 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
         private final TextView categoria;
         private final TextView numAvaliacoes;
         private final ImageView image;
+        private final RatingBar ratingBar;
         private Post post;
 
         public PostViewHolder(View itemView) {
@@ -79,6 +81,8 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
             categoria = itemView.findViewById(R.id.item_post_categoria);
             numAvaliacoes = itemView.findViewById(R.id.item_num_avaliacoes);
             image = itemView.findViewById(R.id.item_post_imagem);
+            ratingBar = itemView.findViewById(R.id.item_rating_bar);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -96,6 +100,7 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
             titulo.setText(post.getTitulo());
             numAvaliacoes.setText(post.getNumAvaliacoes());
             categoria.setText(post.getCategoria());
+            ratingBar.setRating(Integer.parseInt(post.getRate()));
             Drawable drawableImagemPacote = ResourceUtil
                     .devolveDrawable(context, post.getImagem());
             image.setImageDrawable(drawableImagemPacote);

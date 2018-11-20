@@ -9,6 +9,8 @@
     <color name="colorBtn">#c9c9c7</color>
     <color name="colorBtnCadastrar">#cc320f</color>
     <color name="colorBtnFacebook">#2f52a5</color>
+    <color name="colorBtnTwiter">#488fd0</color>
+    <color name="colorBtnInstagram">#E44036</color>
     <color name="btnEntrarPress">#999999</color>
     <color name="btnEntrarNotPress">#3f3e3e</color>
     <color name="btnCadastrarPress">#cc320f</color>
@@ -21,5 +23,6 @@
     <color name="labelCate">#cc320f</color>
     <color name="star1Color">#c4c498</color>
     <color name="star2Color">#e1e100</color>
+    <color name="backGround">#292828</color>
 
 </resources>
