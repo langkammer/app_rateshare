@@ -106,8 +106,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@color/colorBtnFacebook"
+        android:background="@drawable/btn_facebook"
         android:drawableLeft="@drawable/face"
+        android:gravity="left|center_vertical"
         android:text="@string/vincular_facebook"
         android:textColor="@color/edtBgWhite"
         android:textSize="18sp"
@@ -115,8 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_cfg_vinc_social"
-        tools:ignore="MissingConstraints"
-        android:drawableStart="@drawable/face" />
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btn_cfg_twt"
@@ -127,8 +127,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@color/btnTwtNotPress"
+        android:background="@drawable/btn_twt"
+        android:drawableStart="@drawable/twticon"
         android:drawableLeft="@drawable/twticon"
+        android:gravity="left|center_vertical"
         android:text="@string/vincular_twiter"
         android:textColor="@color/edtBgWhite"
         android:textSize="18sp"
@@ -137,8 +139,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_cfg_face"
-        tools:ignore="MissingConstraints"
-        android:drawableStart="@drawable/twticon" />
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btn_cfg_insta"
@@ -149,8 +150,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@color/colorBtnInstagram"
+        android:background="@drawable/btn_insta"
+        android:drawableStart="@drawable/insta"
         android:drawableLeft="@drawable/insta"
+        android:gravity="left|center_vertical"
         android:text="@string/vincular_instagram"
         android:textColor="@color/edtBgWhite"
         android:textSize="18sp"
@@ -159,7 +162,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_cfg_twt"
-        tools:ignore="MissingConstraints"
-        android:drawableStart="@drawable/insta" />
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>

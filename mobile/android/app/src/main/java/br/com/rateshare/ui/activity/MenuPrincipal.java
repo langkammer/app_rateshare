@@ -103,11 +103,18 @@ public class MenuPrincipal extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent;
 
-        if(id == R.id.menu_item_ajustes)
+        if(id == R.id.menu_item_ajustes){
             Toast.makeText(getApplicationContext(), "Entrou na opção configurações", Toast.LENGTH_SHORT).show();
-        if(id == R.id.menu_item_sair)
+            intent = new Intent(this, ConfigActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            this.startActivity(intent);
+        }
+        if(id == R.id.menu_item_sair){
             Toast.makeText(getApplicationContext(), "Entrou na opção sair", Toast.LENGTH_SHORT).show();
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
