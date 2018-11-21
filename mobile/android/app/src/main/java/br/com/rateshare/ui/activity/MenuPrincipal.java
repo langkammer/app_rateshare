@@ -28,6 +28,8 @@ import br.com.rateshare.model.Post;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
 
+import static android.support.v4.content.FileProvider.getUriForFile;
+
 public class MenuPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -65,10 +67,13 @@ public class MenuPrincipal extends AppCompatActivity
 
     public void abreCamera(){
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
-        File arquivoFoto = new File(caminhoFoto);
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+//        caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+//        File arquivoFoto = new File(caminhoFoto);
+//        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
         startActivityForResult(intentCamera, CODIGO_CAMERA);
+
+//        File newFile = new File(caminhoFoto, "default_image.jpg");
+//        Uri contentUri = getUriForFile(getApplicationContext(), "com.mydomain.fileprovider", newFile);
     }
 
 
