@@ -5,6 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/menu_item_posts"
+            android:icon="@drawable/ic_star_half_black_24dp"
+            android:title="Postagens" />
+        <item
             android:id="@+id/menu_item_ajustes"
             android:icon="@drawable/ic_menu_manage"
             android:title="Ajustes" />

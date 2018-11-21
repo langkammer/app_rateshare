@@ -1,12 +1,14 @@
 package br.com.rateshare.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.provider.MediaStore;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,9 @@ public class MenuPrincipal extends AppCompatActivity
     private static final int CODIGO_REQUISICAO_ALTERA_NOTA = 1;
     private static final String CHAVE_NOTA = "nota";
     private static final int CODIGO_REQUISICAO_INSERE_NOTA = 12;
+    public static final int CODIGO_CAMERA = 567;
+    private String caminhoFoto;
+
 
     public ListaPostsAdapter adapter;
 
@@ -40,14 +46,43 @@ public class MenuPrincipal extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         montaTelaInicial();
-
-        List<Post> todasNotas = pegaTodosPosts();
-
+        callFragmentPosts();
         setTitle(TITULO_APPBAR);
+    }
 
-        configuraRecyclerView(todasNotas);
+
+
+    @SuppressLint("ResourceType")
+    public void callFragmentPosts(){
+
+        FragmentTransaction tx = getFragmentTransaction();
+
+        tx.replace(R.id.frame_principal, new ListaPostsFrament());
+
+        tx.commit();
 
     }
+
+    public void abreCamera(){
+        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+        File arquivoFoto = new File(caminhoFoto);
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
+        startActivityForResult(intentCamera, CODIGO_CAMERA);
+    }
+
+
+    @SuppressLint("ResourceType")
+    public void callFragmetSettings(){
+
+        FragmentTransaction tx = getFragmentTransaction();
+
+        tx.replace(R.id.frame_principal, new ConfigFragment());
+
+        tx.commit();
+
+    }
+
 
     private void montaTelaInicial() {
         setContentView(R.layout.activity_menu_principal);
@@ -63,6 +98,15 @@ public class MenuPrincipal extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
+
+
+    private FragmentTransaction getFragmentTransaction() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        return fragmentManager.beginTransaction();
+    }
+
 
 
     @Override
@@ -92,6 +136,7 @@ public class MenuPrincipal extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.abre_foto) {
             Toast.makeText(getApplicationContext(), "Entrou na opção fotografia", Toast.LENGTH_SHORT).show();
+            abreCamera();
             return true;
         }
 
@@ -106,13 +151,16 @@ public class MenuPrincipal extends AppCompatActivity
         Intent intent;
 
         if(id == R.id.menu_item_ajustes){
-            Toast.makeText(getApplicationContext(), "Entrou na opção configurações", Toast.LENGTH_SHORT).show();
-            intent = new Intent(this, ConfigActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            this.startActivity(intent);
+            callFragmetSettings();
+        }
+        if(id == R.id.menu_item_posts){
+            callFragmentPosts();
         }
         if(id == R.id.menu_item_sair){
-            Toast.makeText(getApplicationContext(), "Entrou na opção sair", Toast.LENGTH_SHORT).show();
+           intent = new Intent(getApplicationContext(),LoginActivity.class);
+           startActivity(intent);
+           this.finish();
+
         }
 
 
