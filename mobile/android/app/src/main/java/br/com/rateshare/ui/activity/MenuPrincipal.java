@@ -69,10 +69,20 @@ public class MenuPrincipal extends AppCompatActivity
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intentCamera, CODIGO_CAMERA);
         File newFile = new File(caminhoFoto,  System.currentTimeMillis() + ".jpg");
+        caminhoFoto = Uri.fromFile(newFile).toString();
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CODIGO_CAMERA) {
+                Toast.makeText(this,"FOTO TIRADA" + caminhoFoto,Toast.LENGTH_LONG);
+            }
+        }
+
+    }
 
     @SuppressLint("ResourceType")
     public void callFragmetSettings(){
@@ -176,13 +186,6 @@ public class MenuPrincipal extends AppCompatActivity
     private void vaiParaFormularioNotaActivityInsere() {
         Toast.makeText(getApplicationContext(), "Teste vaiParaFormularioNotaActivityInsere", Toast.LENGTH_SHORT).show();
 
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //nao implementado
     }
 
     private void altera(Post post, int posicao) {
