@@ -28,7 +28,6 @@ import br.com.rateshare.model.Post;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
 
-import static android.support.v4.content.FileProvider.getUriForFile;
 
 public class MenuPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,8 +68,28 @@ public class MenuPrincipal extends AppCompatActivity
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intentCamera, CODIGO_CAMERA);
         File newFile = new File(caminhoFoto,  System.currentTimeMillis() + ".jpg");
-        caminhoFoto = Uri.fromFile(newFile).toString();
+        caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+    }
+
+    private void vaiParaNovaPostagem(String caminhoFoto) {
+        FragmentManager manager = getSupportFragmentManager();
+
+        FragmentTransaction tx = manager.beginTransaction();
+
+        FormNovoPostagemFragment detalhesFragment = new FormNovoPostagemFragment();
+
+        Bundle parametros = new Bundle();
+
+        parametros.putSerializable("pathFile", caminhoFoto);
+
+        detalhesFragment.setArguments(parametros);
+
+        tx.replace(R.id.frame_principal, detalhesFragment);
+
+        tx.addToBackStack(null);
+
+        tx.commit();
 
     }
 
@@ -78,7 +97,7 @@ public class MenuPrincipal extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CODIGO_CAMERA) {
-                Toast.makeText(this,"FOTO TIRADA" + caminhoFoto,Toast.LENGTH_LONG);
+                vaiParaNovaPostagem(caminhoFoto);
             }
         }
 
