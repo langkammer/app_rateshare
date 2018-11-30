@@ -66,10 +66,11 @@ public class MenuPrincipal extends AppCompatActivity
 
     public void abreCamera(){
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intentCamera, CODIGO_CAMERA);
-        File newFile = new File(caminhoFoto,  System.currentTimeMillis() + ".jpg");
         caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
+        File newFile = new File(caminhoFoto,  System.currentTimeMillis() + ".jpg");
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+        startActivityForResult(intentCamera, CODIGO_CAMERA);
+
     }
 
     private void vaiParaNovaPostagem(String caminhoFoto) {
@@ -89,7 +90,8 @@ public class MenuPrincipal extends AppCompatActivity
 
         tx.addToBackStack(null);
 
-        tx.commit();
+        tx.commitAllowingStateLoss();
+
 
     }
 

@@ -32,9 +32,7 @@ public class FormNovoPostagemFragment extends Fragment {
         if (parametros != null) {
             String pathFile = (String) parametros.getSerializable("pathFile");
             putPathFoto(pathFile);
-            Postagem postagem = new Postagem();
-            postagem.setImagem(this.pathFoto);
-            helper.preencheFormulario(postagem);
+            helper.carregaImagem(this.pathFoto);
 
         }
 
