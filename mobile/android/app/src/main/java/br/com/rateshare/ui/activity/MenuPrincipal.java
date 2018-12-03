@@ -2,6 +2,7 @@ package br.com.rateshare.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,9 @@ import br.com.rateshare.R;
 import br.com.rateshare.model.Post;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
+
+import static android.support.v4.content.FileProvider.getUriForFile;
+import static java.security.AccessController.getContext;
 
 
 public class MenuPrincipal extends AppCompatActivity
@@ -66,10 +70,13 @@ public class MenuPrincipal extends AppCompatActivity
 
     public void abreCamera(){
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        caminhoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".jpg";
-        File newFile = new File(caminhoFoto,  System.currentTimeMillis() + ".jpg");
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
+        File imagePath = new File(this.getFilesDir(), "images");
+        File arquivoFoto = new File(imagePath, System.currentTimeMillis() + ".jpg");
+        Uri contentUri = getUriForFile(getApplicationContext(), "br.com.rateshare.fileprovider", arquivoFoto);
+        caminhoFoto = contentUri.toString();
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
         startActivityForResult(intentCamera, CODIGO_CAMERA);
+
 
     }
 
