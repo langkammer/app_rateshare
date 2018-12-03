@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import br.com.rateshare.R;
 import br.com.rateshare.helper.FormPostsAdapterHelper;
-import br.com.rateshare.model.Postagem;
 
 public class FormNovoPostagemFragment extends Fragment {
 
