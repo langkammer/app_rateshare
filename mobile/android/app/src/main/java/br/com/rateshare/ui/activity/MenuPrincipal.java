@@ -2,13 +2,14 @@ package br.com.rateshare.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,17 +22,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.rateshare.R;
 import br.com.rateshare.model.Post;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
-
-import static android.support.v4.content.FileProvider.getUriForFile;
-import static java.security.AccessController.getContext;
-
 
 public class MenuPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,16 +68,54 @@ public class MenuPrincipal extends AppCompatActivity
 
     }
 
-    public void abreCamera(){
-        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File imagePath = new File(this.getFilesDir(), "images");
-        File arquivoFoto = new File(imagePath, System.currentTimeMillis() + ".jpg");
-        Uri contentUri = getUriForFile(getApplicationContext(), "br.com.rateshare.fileprovider", arquivoFoto);
-        caminhoFoto = contentUri.toString();
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-        startActivityForResult(intentCamera, CODIGO_CAMERA);
+//    public void abreCamera(){
+//        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        File imagePath = new File(this.getFilesDir(), "images");
+//        File arquivoFoto = new File(imagePath, System.currentTimeMillis() + ".jpg");
+//        Uri contentUri = getUriForFile(getApplicationContext(), "br.com.rateshare.fileprovider", arquivoFoto);
+//        caminhoFoto = contentUri.toString();
+//        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+//        startActivityForResult(intentCamera, CODIGO_CAMERA);
+//
+//
+//    }
 
+    private void abreCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                Toast.makeText(getApplicationContext(), "Error while saving picture.", Toast.LENGTH_LONG).show();
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "br.com.rateshare.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, CODIGO_CAMERA);
+            }
+        }
+    }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        caminhoFoto = image.getAbsolutePath();
+        return image;
     }
 
     private void vaiParaNovaPostagem(String caminhoFoto) {
@@ -126,16 +164,16 @@ public class MenuPrincipal extends AppCompatActivity
 
     private void montaTelaInicial() {
         setContentView(R.layout.activity_menu_principal);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -152,7 +190,7 @@ public class MenuPrincipal extends AppCompatActivity
     @Override
     public void onBackPressed() {
         //registra botão de volta
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -204,7 +242,7 @@ public class MenuPrincipal extends AppCompatActivity
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

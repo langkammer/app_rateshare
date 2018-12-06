@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Rate &amp; Share</string>
+
+    <string name="titulo_login_tela">Login</string>
+    <string name="titulo_novo_post"> Novo Post</string>
+    <string name="titulo_config_tela">Configuração</string>
+
     <string name="titulo">Titulo</string>
     <string name="categoria">Categoria</string>
     <string name="awesome_button">Awesome Button</string>

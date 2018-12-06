@@ -30,11 +30,11 @@ public class FormPostsAdapterHelper {
     private Context context;
 
     public FormPostsAdapterHelper(FormNovoPostagemFragment formFragment) {
-        formItemEitTitulo = (EditText) formFragment.getActivity().findViewById(R.id.form_item_edit_titulo);
-        formItemOptionCateg = (Spinner) formFragment.getActivity().findViewById(R.id.form_item_option_categ);
-        formItemRate = (RatingBar) formFragment.getActivity().findViewById(R.id.form_item_rate);
-        formItemImageview = (ImageView) formFragment.getActivity().findViewById(R.id.form_item_image_view);
-        formItemTexteditDescript  = (EditText) formFragment.getActivity().findViewById(R.id.form_item_textedit_descript);
+        formItemEitTitulo = formFragment.getActivity().findViewById(R.id.form_item_edit_titulo);
+        formItemOptionCateg = formFragment.getActivity().findViewById(R.id.form_item_option_categ);
+        formItemRate = formFragment.getActivity().findViewById(R.id.form_item_rate);
+        formItemImageview = formFragment.getActivity().findViewById(R.id.form_item_image_view);
+        formItemTexteditDescript  = formFragment.getActivity().findViewById(R.id.form_item_textedit_descript);
         this.context = formFragment.getContext();
         postagem = new Postagem();
     }
@@ -62,11 +62,13 @@ public class FormPostsAdapterHelper {
 
     public void carregaImagem(String caminhoFoto) {
         if (caminhoFoto != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-//            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
-            formItemImageview.setImageBitmap(bitmap);
-            formItemImageview.setScaleType(ImageView.ScaleType.FIT_XY);
-            formItemImageview.setTag(caminhoFoto);
+//            Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
+////            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
+//            formItemImageview.setImageBitmap(bitmap);
+//            formItemImageview.setScaleType(ImageView.ScaleType.FIT_XY);
+//            formItemImageview.setTag(caminhoFoto);
+            Bitmap imageBitmap = BitmapFactory.decodeFile(caminhoFoto);
+            formItemImageview.setImageBitmap(imageBitmap);
         }
     }
 }
