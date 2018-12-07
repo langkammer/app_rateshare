@@ -1,55 +1,55 @@
-mobile/.DS_Store
-mobile/.idea
-mobile/*.iml
-mobile/.gradle
-mobile/local.properties
-mobile/.idea/workspace.xml
-mobile/.idea/libraries
-mobile/build
-mobile/captures
-mobile/.externalNativeBuild
-mobile/obj/
+mobile/android/.DS_Store
+mobile/android/.idea
+mobile/android/*.iml
+mobile/android/.gradle
+mobile/android/local.properties
+mobile/android/.idea/workspace.xml
+mobile/android/.idea/libraries
+mobile/android/build
+mobile/android/captures
+mobile/android/.externalNativeBuild
+mobile/android/obj/
 
 
-mobile/.idea/libraries/
-mobile/.idea/workspace.xml
-mobile/.idea/tasks.xml
-mobile/.idea/.name
-mobile/.idea/compiler.xml
-mobile/.idea/copyright/profiles_settings.xml
-mobile/.idea/encodings.xml
-mobile/.idea/misc.xml
-mobile/.idea/modules.xml
-mobile/.idea/scopes/scope_settings.xml
-mobile/.idea/vcs.xml
-mobile/*.iml
+mobile/android/.idea/libraries/
+mobile/android/.idea/workspace.xml
+mobile/android/.idea/tasks.xml
+mobile/android/.idea/.name
+mobile/android/.idea/compiler.xml
+mobile/android/.idea/copyright/profiles_settings.xml
+mobile/android/.idea/encodings.xml
+mobile/android/.idea/misc.xml
+mobile/android/.idea/modules.xml
+mobile/android/.idea/scopes/scope_settings.xml
+mobile/android/.idea/vcs.xml
+mobile/android/*.iml
 
 
 # OS-specific files
-mobile/.DS_Store
-mobile/.DS_Store?
-mobile/._*
-mobile/.Spotlight-V100
-mobile/.Trashes
-mobile/ehthumbs.db
-mobile/Thumbs.db
+mobile/android/.DS_Store
+mobile/android/.DS_Store?
+mobile/android/._*
+mobile/android/.Spotlight-V100
+mobile/android/.Trashes
+mobile/android/ehthumbs.db
+mobile/android/Thumbs.db
 
 
 # Signing files
-mobile/.signing/
+mobile/android/.signing/
 
 
 
 # Gradle generated files
-mobile/.gradle/
+mobile/android/.gradle/
 
 
 # Local configuration file (sdk path, etc)
-mobile/local.properties
+mobile/android/local.properties
 
 
 # Built application files
-mobile//*/build/
+mobile/android//*/build/
 
 # Crashlytics configuations
-mobile/com_crashlytics_export_strings.xml
+mobile/android/com_crashlytics_export_strings.xml
