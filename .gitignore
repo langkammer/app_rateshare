@@ -1,1 +1,55 @@
 mobile/.DS_Store
+mobile/.idea
+mobile/*.iml
+mobile/.gradle
+mobile/local.properties
+mobile/.idea/workspace.xml
+mobile/.idea/libraries
+mobile/build
+mobile/captures
+mobile/.externalNativeBuild
+mobile/obj/
+
+
+mobile/.idea/libraries/
+mobile/.idea/workspace.xml
+mobile/.idea/tasks.xml
+mobile/.idea/.name
+mobile/.idea/compiler.xml
+mobile/.idea/copyright/profiles_settings.xml
+mobile/.idea/encodings.xml
+mobile/.idea/misc.xml
+mobile/.idea/modules.xml
+mobile/.idea/scopes/scope_settings.xml
+mobile/.idea/vcs.xml
+mobile/*.iml
+
+
+# OS-specific files
+mobile/.DS_Store
+mobile/.DS_Store?
+mobile/._*
+mobile/.Spotlight-V100
+mobile/.Trashes
+mobile/ehthumbs.db
+mobile/Thumbs.db
+
+
+# Signing files
+mobile/.signing/
+
+
+
+# Gradle generated files
+mobile/.gradle/
+
+
+# Local configuration file (sdk path, etc)
+mobile/local.properties
+
+
+# Built application files
+mobile//*/build/
+
+# Crashlytics configuations
+mobile/com_crashlytics_export_strings.xml
