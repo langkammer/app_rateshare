@@ -48,8 +48,5 @@ mobile/android/.gradle/
 mobile/android/local.properties
 
 
-# Built application files
-mobile/android//*/build/
-
 # Crashlytics configuations
 mobile/android/com_crashlytics_export_strings.xml
