@@ -235,9 +235,9 @@ public class MenuPrincipal extends AppCompatActivity
             callFragmentPosts();
         }
         if(id == R.id.menu_item_sair){
-           intent = new Intent(getApplicationContext(),LoginActivity.class);
-           startActivity(intent);
-           this.finish();
+            intent = new Intent(getApplicationContext(),LoginActivity.class);
+            startActivity(intent);
+            this.finish();
 
         }
 
