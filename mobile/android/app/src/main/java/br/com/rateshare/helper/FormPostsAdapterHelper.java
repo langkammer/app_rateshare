@@ -4,15 +4,17 @@ package br.com.rateshare.helper;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 
+import java.io.File;
+
 import br.com.rateshare.R;
-import br.com.rateshare.dao.CategoriaDAO;
+import br.com.rateshare.model.Categoria;
 import br.com.rateshare.model.Postagem;
-import br.com.rateshare.ui.activity.FormNovoPostagemFragment;
 
 /**
  * Created by alura on 12/08/15.
@@ -29,22 +31,22 @@ public class FormPostsAdapterHelper {
 
     private Context context;
 
-    public FormPostsAdapterHelper(FormNovoPostagemFragment formFragment) {
-        formItemEitTitulo = formFragment.getActivity().findViewById(R.id.form_item_edit_titulo);
-        formItemOptionCateg = formFragment.getActivity().findViewById(R.id.form_item_option_categ);
-        formItemRate = formFragment.getActivity().findViewById(R.id.form_item_rate);
-        formItemImageview = formFragment.getActivity().findViewById(R.id.form_item_image_view);
-        formItemTexteditDescript  = formFragment.getActivity().findViewById(R.id.form_item_textedit_descript);
-        this.context = formFragment.getContext();
+    public FormPostsAdapterHelper(View view) {
+        formItemEitTitulo   =   view.findViewById(R.id.form_item_edit_titulo);
+        formItemOptionCateg =   view.findViewById(R.id.form_item_option_categ);
+        formItemRate        =   view.findViewById(R.id.form_item_rate);
+        formItemImageview   =   view.findViewById(R.id.form_item_image_view);
+        formItemTexteditDescript  = view.findViewById(R.id.form_item_textedit_descript);
+        this.context = view.getContext();
         postagem = new Postagem();
     }
 
     public Postagem pegaPostagem() {
         postagem.setTitulo(formItemEitTitulo.getText().toString());
         postagem.setDescricao(formItemTexteditDescript.getText().toString());
-        CategoriaDAO categoriaDAO = new CategoriaDAO(this.context);
-        if(formItemOptionCateg.getSelectedItem().toString()!=null)
-            postagem.setCategoria(categoriaDAO.getCategoriaByIdExterno(formItemOptionCateg.getSelectedItem().toString()));
+        Categoria categoria = new Categoria();
+//        if(formItemOptionCateg.getSelectedItem().toString()!=null)
+//            postagem.setCategoria(categoriaDAO.getCategoriaByIdExterno(formItemOptionCateg.getSelectedItem().toString()));
         postagem.setRate(Double.valueOf(formItemRate.getProgress()));
         postagem.setImagem((String) formItemImageview.getTag());
         return postagem;
@@ -62,12 +64,8 @@ public class FormPostsAdapterHelper {
 
     public void carregaImagem(String caminhoFoto) {
         if (caminhoFoto != null) {
-//            Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
-////            Bitmap bitmapReduzido = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
-//            formItemImageview.setImageBitmap(bitmap);
-//            formItemImageview.setScaleType(ImageView.ScaleType.FIT_XY);
-//            formItemImageview.setTag(caminhoFoto);
-            Bitmap imageBitmap = BitmapFactory.decodeFile(caminhoFoto);
+            File imgFile = new File(caminhoFoto);
+            Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             formItemImageview.setImageBitmap(imageBitmap);
         }
     }

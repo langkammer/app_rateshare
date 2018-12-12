@@ -1,6 +1,8 @@
 package br.com.rateshare.ui.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,20 +24,6 @@ public class FormNovoPostagemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-        helper = new FormPostsAdapterHelper(this);
-
-
-        Bundle parametros = getArguments();
-        if (parametros != null) {
-            String pathFile = (String) parametros.getSerializable("pathFile");
-            putPathFoto(pathFile);
-            helper.carregaImagem(this.pathFoto);
-
-        }
-
-
         return getView(inflater, container);
     }
 
@@ -47,7 +35,27 @@ public class FormNovoPostagemFragment extends Fragment {
     }
 
 
+
     public void putPathFoto(String path) {
         this.pathFoto = path;
+    }
+
+    public void setHelper(FormPostsAdapterHelper helper) {
+        this.helper = helper;
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        helper = new FormPostsAdapterHelper(view);
+        setHelper(helper);
+        Bundle parametros = getArguments();
+        if (parametros != null) {
+            String pathFile = (String) parametros.getSerializable("pathFile");
+            putPathFoto(pathFile);
+            helper.carregaImagem(this.pathFoto);
+
+        }
     }
 }

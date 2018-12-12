@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.rateshare.R;
+import br.com.rateshare.model.Categoria;
 import br.com.rateshare.model.Post;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
@@ -53,6 +54,14 @@ public class MenuPrincipal extends AppCompatActivity
         montaTelaInicial();
         callFragmentPosts();
         setTitle(TITULO_APPBAR);
+
+        Categoria categoria;
+
+        categoria = new Categoria();
+        categoria.nomeCategoria = "Cat : " + 1;
+        categoria.data_cadastro = "DATA : " + 1;
+        categoria.id_externo = 1;
+        categoria.save();
     }
 
 

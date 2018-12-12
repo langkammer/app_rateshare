@@ -1,45 +1,50 @@
 package br.com.rateshare.model;
 
-public class Categoria {
+import com.orm.SugarRecord;
 
-    private Integer id;
+public class Categoria extends SugarRecord<Categoria> {
 
-    private String  nomeCategoria;
+    public Long id;
 
-    private Integer  id_externo;
+    public String  nomeCategoria;
 
-    private String  data_cadastro;
+    public Integer  id_externo;
+
+    public String  data_cadastro;
 
 
-    public Integer getId() {
-        return id;
+    public Categoria(){
     }
 
-    public void setId(Integer id) {
+    public Categoria(Long id, String nomeCategoria,Integer id_externo,String data_cadastro){
         this.id = id;
-    }
-
-    public String getNomeCategoria() {
-        return nomeCategoria;
-    }
-
-    public void setNomeCategoria(String nomeCategoria) {
         this.nomeCategoria = nomeCategoria;
-    }
-
-    public Integer getId_externo() {
-        return id_externo;
-    }
-
-    public void setId_externo(Integer id_externo) {
         this.id_externo = id_externo;
-    }
-
-    public String getData_cadastro() {
-        return data_cadastro;
-    }
-
-    public void setData_cadastro(String data_cadastro) {
         this.data_cadastro = data_cadastro;
     }
+
+
+    public Categoria findById(Long id){
+        return Categoria.findById(Categoria.class, id);
+    }
+
+
+    public void save(){
+         this.save();
+    }
+
+    public Categoria update(){
+        Categoria categoria = Categoria.findById(Categoria.class, this.id);
+        categoria = this;
+        categoria.save(); // updates the previous entry with new values.
+        return categoria;
+    }
+
+    public void deleta(Long id){
+        Categoria categoria = Categoria.findById(Categoria.class, id);
+        categoria.delete();
+    }
+
+
+
 }
