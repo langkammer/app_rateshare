@@ -2,6 +2,7 @@ package br.com.rateshare.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -29,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.rateshare.R;
-import br.com.rateshare.model.Categoria;
+import br.com.rateshare.dao.generic.DatabaseSettings;
 import br.com.rateshare.model.Post;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
@@ -43,10 +45,13 @@ public class MenuPrincipal extends AppCompatActivity
     private static final String CHAVE_NOTA = "nota";
     private static final int CODIGO_REQUISICAO_INSERE_NOTA = 12;
     public static final int CODIGO_CAMERA = 567;
+    public static String databaseName = new DatabaseSettings().nameDatabase;
     private String caminhoFoto;
 
 
     public ListaPostsAdapter adapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +60,6 @@ public class MenuPrincipal extends AppCompatActivity
         callFragmentPosts();
         setTitle(TITULO_APPBAR);
 
-        Categoria categoria;
-
-        categoria = new Categoria();
-        categoria.nomeCategoria = "Cat : " + 1;
-        categoria.data_cadastro = "DATA : " + 1;
-        categoria.id_externo = 1;
-        categoria.save();
     }
 
 
@@ -77,19 +75,8 @@ public class MenuPrincipal extends AppCompatActivity
 
     }
 
-//    public void abreCamera(){
-//        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        File imagePath = new File(this.getFilesDir(), "images");
-//        File arquivoFoto = new File(imagePath, System.currentTimeMillis() + ".jpg");
-//        Uri contentUri = getUriForFile(getApplicationContext(), "br.com.rateshare.fileprovider", arquivoFoto);
-//        caminhoFoto = contentUri.toString();
-//        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-//        startActivityForResult(intentCamera, CODIGO_CAMERA);
-//
-//
-//    }
-
     private void abreCamera() {
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {

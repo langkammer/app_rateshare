@@ -13,7 +13,6 @@ import android.widget.Spinner;
 import java.io.File;
 
 import br.com.rateshare.R;
-import br.com.rateshare.model.Categoria;
 import br.com.rateshare.model.Postagem;
 
 /**
@@ -44,7 +43,7 @@ public class FormPostsAdapterHelper {
     public Postagem pegaPostagem() {
         postagem.setTitulo(formItemEitTitulo.getText().toString());
         postagem.setDescricao(formItemTexteditDescript.getText().toString());
-        Categoria categoria = new Categoria();
+//        Categoria categoria = new Categoria();
 //        if(formItemOptionCateg.getSelectedItem().toString()!=null)
 //            postagem.setCategoria(categoriaDAO.getCategoriaByIdExterno(formItemOptionCateg.getSelectedItem().toString()));
         postagem.setRate(Double.valueOf(formItemRate.getProgress()));

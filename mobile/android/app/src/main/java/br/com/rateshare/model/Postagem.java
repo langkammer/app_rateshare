@@ -6,8 +6,6 @@ public class Postagem {
 
     private String  titulo;
 
-    private Categoria categoria;
-
     private String  imagem;
 
     private Double  rate;
@@ -30,14 +28,6 @@ public class Postagem {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
     }
 
     public String getImagem() {

@@ -8,8 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.rateshare.R;
+import br.com.rateshare.dao.generic.DatabaseSettings;
 import br.com.rateshare.helper.FormPostsAdapterHelper;
+import br.com.rateshare.model.CategoriaModel;
 
 public class FormNovoPostagemFragment extends Fragment {
 
@@ -21,6 +26,9 @@ public class FormNovoPostagemFragment extends Fragment {
 
     public static final String TITULO_APPBAR = "Nova Postagem";
 
+    public static String databaseName = new DatabaseSettings().nameDatabase;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,8 +39,19 @@ public class FormNovoPostagemFragment extends Fragment {
 
         view = inflater.inflate(R.layout.activity_formulario_inclui_foto,  container, false);
 
+
+        //popular categoria
+        List<CategoriaModel> listCat = new ArrayList<CategoriaModel>();
+
+        CategoriaModel categoriaModel = new CategoriaModel(getContext(),databaseName);
+
+        listCat = categoriaModel.listar();
+
+
+
         return view;
     }
+
 
 
 
