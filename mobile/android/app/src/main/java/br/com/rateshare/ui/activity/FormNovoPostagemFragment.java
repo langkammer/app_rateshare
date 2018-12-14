@@ -7,14 +7,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import br.com.rateshare.R;
 import br.com.rateshare.dao.generic.DatabaseSettings;
 import br.com.rateshare.helper.FormPostsAdapterHelper;
-import br.com.rateshare.model.CategoriaModel;
+import br.com.rateshare.model.Post;
+import br.com.rateshare.model.Postagem;
+import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
 
 public class FormNovoPostagemFragment extends Fragment {
 
@@ -29,6 +31,7 @@ public class FormNovoPostagemFragment extends Fragment {
     public static String databaseName = new DatabaseSettings().nameDatabase;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,16 +41,6 @@ public class FormNovoPostagemFragment extends Fragment {
     private View getView(LayoutInflater inflater, ViewGroup container) {
 
         view = inflater.inflate(R.layout.activity_formulario_inclui_foto,  container, false);
-
-
-        //popular categoria
-        List<CategoriaModel> listCat = new ArrayList<CategoriaModel>();
-
-        CategoriaModel categoriaModel = new CategoriaModel(getContext(),databaseName);
-
-        listCat = categoriaModel.listar();
-
-
 
         return view;
     }
@@ -73,8 +66,18 @@ public class FormNovoPostagemFragment extends Fragment {
         if (parametros != null) {
             String pathFile = (String) parametros.getSerializable("pathFile");
             putPathFoto(pathFile);
+            helper.preencheFormulario(new Postagem());
             helper.carregaImagem(this.pathFoto);
 
         }
+
+        helper.getForm_item_btn_salvar().setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                Toast.makeText(getContext(), "Salvar", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
     }
 }
