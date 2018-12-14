@@ -74,10 +74,13 @@ public class FormNovoPostagemFragment extends Fragment {
         helper.getForm_item_btn_salvar().setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-                Toast.makeText(getContext(), "Salvar", Toast.LENGTH_LONG).show();
+                if(helper.validateFields())
+                    Toast.makeText(getContext(), "Salvar", Toast.LENGTH_LONG).show();
 
             }
         });
 
     }
+
+
 }

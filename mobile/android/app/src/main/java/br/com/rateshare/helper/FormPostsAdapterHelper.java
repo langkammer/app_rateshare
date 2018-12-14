@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -114,5 +115,29 @@ public class FormPostsAdapterHelper {
 
     public Button getForm_item_btn_salvar() {
         return form_item_btn_salvar;
+    }
+
+
+    public boolean validateFields(){
+        boolean retorno = false;
+
+        //valida se tem preenchimento de stars
+        if(getFormItemRate().getProgress() == 0) {
+            Toast.makeText(context,"Informe a quantidade de estrela que deseja avaliar a foto",Toast.LENGTH_SHORT);
+            retorno = false;
+        }
+        if(getFormItemEitTitulo().getText() != null){
+            Toast.makeText(context,"Informe um titulo",Toast.LENGTH_SHORT);
+            retorno = false;
+        }
+        if(getFormItemTexteditDescript().getText() != null){
+            Toast.makeText(context,"Informe uma descrição",Toast.LENGTH_SHORT);
+            retorno = false;
+        }
+        if(getFormItemOptionCateg().getSelectedItem() == null){
+            Toast.makeText(context,"Informe uma categoria",Toast.LENGTH_SHORT);
+            retorno = false;
+        }
+        return retorno;
     }
 }
