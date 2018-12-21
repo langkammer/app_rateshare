@@ -22,6 +22,8 @@ public class CategoriaModel extends GenericDao {
 
     public String  data;
 
+    public Context context;
+
     private Long getId(){
         return this.id;
     }
@@ -30,8 +32,9 @@ public class CategoriaModel extends GenericDao {
         this.id = id;
     }
 
-    public CategoriaModel(Context context,String databaseName) {
-        super(context,databaseName,new Tabela().getTAbelaCategoria());
+    public CategoriaModel(Context context) {
+        super(context,new Tabela().getTAbelaCategoria());
+        this.context = context;
     }
 
     public ContentValues setBindContetnValues(){
@@ -48,15 +51,17 @@ public class CategoriaModel extends GenericDao {
 
     public CategoriaModel getBindContetnValues(ContentValues contentValues){
 
-        this.nome = contentValues.getAsString("nome");
+        CategoriaModel categoriaModel = new CategoriaModel(this.context);
 
-        this.id   = contentValues.getAsLong( "id");
+        categoriaModel.nome = contentValues.getAsString("nome");
 
-        this.id_externo = contentValues.getAsString("id_externo");
+        categoriaModel.id   = contentValues.getAsLong( "id");
 
-        this.data = contentValues.getAsString("data");
+        categoriaModel.id_externo = contentValues.getAsString("id_externo");
 
-        return this;
+        categoriaModel.data = contentValues.getAsString("data");
+
+        return categoriaModel;
     }
 
     public CategoriaModel salvar(){
@@ -73,15 +78,19 @@ public class CategoriaModel extends GenericDao {
 
         List<ContentValues> contentValuesList = findAll();
 
-        List<CategoriaModel> list = new ArrayList<CategoriaModel>();
-
-        CategoriaModel categoriaModel;
+        List<CategoriaModel> list = new ArrayList<>();
 
         for(ContentValues contentValues : contentValuesList){
-            categoriaModel = getBindContetnValues(contentValues);
-            list.add(categoriaModel);
+            list.add(getBindContetnValues(contentValues));
         }
-
         return list;
     }
+
+    public CategoriaModel findId(Long id){
+
+        CategoriaModel categoriaModel = getBindContetnValues(findById(id));
+
+        return categoriaModel;
+    }
+
 }

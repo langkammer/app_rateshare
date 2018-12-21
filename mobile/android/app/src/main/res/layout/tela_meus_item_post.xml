@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/lista_pacote_meu_post_cardview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="1dp">
+
+            <ImageView
+                android:id="@+id/item_post_imagem"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:contentDescription="@string/todo"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                android:background="@color/edtBgWhite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@sample/posts.json/posts/imagem" />
+
+
+            <TextView
+                android:id="@+id/item_post_categoria"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:background="@drawable/shape_cat"
+                android:text="@string/categoria"
+                android:textColor="@color/edtBgWhite"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
+                app:layout_constraintTop_toTopOf="@+id/item_post_imagem" />
+
+            <TextView
+                android:id="@+id/item_post_titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_titulo"
+                android:text="@string/titulo"
+                android:textColor="@color/edtBgWhite"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/item_post_imagem" />
+
+            <ImageView
+                android:id="@+id/item_post_detail"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.90"
+                android:contentDescription="@string/todo"
+                app:layout_constraintBottom_toBottomOf="@+id/item_post_imagem"
+                app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
+                app:layout_constraintStart_toStartOf="@+id/item_post_imagem"
+                app:srcCompat="@drawable/shape_detail" />
+
+            <TextView
+                android:id="@+id/item_num_avaliacoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/num_avaliacoes"
+                android:textColor="@color/edtBgWhite"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/item_post_detail"
+                app:layout_constraintStart_toStartOf="@+id/item_post_detail"
+                app:layout_constraintTop_toTopOf="@+id/item_post_detail" />
+
+            <RatingBar
+                android:id="@+id/item_rating_bar"
+                style="@android:style/Widget.DeviceDefault.Light.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:animationResolution="@android:integer/config_mediumAnimTime"
+                android:clickable="false"
+                android:fadingEdge="vertical"
+                android:numStars="5"
+                android:rating="5"
+                android:stepSize="1"
+                android:theme="@style/RatingBar"
+                app:layout_constraintBottom_toBottomOf="@+id/item_post_imagem"
+                app:layout_constraintEnd_toEndOf="@+id/item_post_detail"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/item_post_detail"
+                app:layout_constraintTop_toTopOf="@+id/item_post_detail"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageView
+                android:id="@+id/img_status_legend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/item_post_detail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/item_post_imagem"
+                app:srcCompat="@color/backGround"
+                android:contentDescription="@string/todo" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>

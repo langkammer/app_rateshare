@@ -2,11 +2,9 @@ package br.com.rateshare.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,16 +23,14 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.com.rateshare.R;
-import br.com.rateshare.dao.generic.DatabaseSettings;
-import br.com.rateshare.model.Post;
+import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
+import br.com.rateshare.util.FotoUtil;
 
 public class MenuPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,9 +40,6 @@ public class MenuPrincipal extends AppCompatActivity
     private static final int CODIGO_REQUISICAO_ALTERA_NOTA = 1;
     private static final String CHAVE_NOTA = "nota";
     private static final int CODIGO_REQUISICAO_INSERE_NOTA = 12;
-    public static final int CODIGO_CAMERA = 567;
-    public static String databaseName = new DatabaseSettings().nameDatabase;
-    private String caminhoFoto;
 
 
     public ListaPostsAdapter adapter;
@@ -75,6 +68,16 @@ public class MenuPrincipal extends AppCompatActivity
 
     }
 
+    @SuppressLint("ResourceType")
+    public void callFragmentsMeusPosts(){
+
+        FragmentTransaction tx = getFragmentTransaction();
+
+        tx.replace(R.id.frame_principal, new ListaMeusPostsFrament());
+
+        tx.commit();
+
+    }
     private void abreCamera() {
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -83,9 +86,9 @@ public class MenuPrincipal extends AppCompatActivity
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageFile();
+                photoFile = FotoUtil.createImageFile(getApplicationContext());
             } catch (IOException ex) {
-                Toast.makeText(getApplicationContext(), "Error while saving picture.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Error em salvar a foto.", Toast.LENGTH_LONG).show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -93,26 +96,11 @@ public class MenuPrincipal extends AppCompatActivity
                         "br.com.rateshare.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, CODIGO_CAMERA);
+                startActivityForResult(takePictureIntent, FotoUtil.CODIGO_CAMERA);
             }
         }
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        caminhoFoto = image.getAbsolutePath();
-        return image;
-    }
 
     private void vaiParaNovaPostagem(String caminhoFoto) {
         FragmentManager manager = getSupportFragmentManager();
@@ -139,8 +127,8 @@ public class MenuPrincipal extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == CODIGO_CAMERA) {
-                vaiParaNovaPostagem(caminhoFoto);
+            if (requestCode == FotoUtil.CODIGO_CAMERA) {
+                vaiParaNovaPostagem(FotoUtil.caminhoFoto);
             }
         }
 
@@ -159,7 +147,7 @@ public class MenuPrincipal extends AppCompatActivity
 
 
     private void montaTelaInicial() {
-        setContentView(R.layout.activity_menu_principal);
+        setContentView(R.layout.tela_menu_principal);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -230,6 +218,9 @@ public class MenuPrincipal extends AppCompatActivity
         if(id == R.id.menu_item_posts){
             callFragmentPosts();
         }
+        if(id == R.id.menu_meus_posts){
+            callFragmentsMeusPosts();
+        }
         if(id == R.id.menu_item_sair){
             intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
@@ -250,7 +241,7 @@ public class MenuPrincipal extends AppCompatActivity
 
     }
 
-    private void altera(Post post, int posicao) {
+    private void altera(PostModel post, int posicao) {
         Toast.makeText(getApplicationContext(), "altera", Toast.LENGTH_SHORT).show();
 
     }
@@ -268,7 +259,7 @@ public class MenuPrincipal extends AppCompatActivity
         return requestCode == CODIGO_REQUISICAO_ALTERA_NOTA;
     }
 
-    private void adiciona(Post post) {
+    private void adiciona(PostModel post) {
         //a implementar
     }
 
@@ -289,7 +280,7 @@ public class MenuPrincipal extends AppCompatActivity
         return requestCode == CODIGO_REQUISICAO_INSERE_NOTA;
     }
 
-    private void configuraRecyclerView(List<Post> todosPosts) {
+    private void configuraRecyclerView(List<PostModel> todosPosts) {
         RecyclerView listaPosts = findViewById(R.id.lista_posts_recyclerview);
         configuraAdapter(todosPosts, listaPosts);
         configuraItemTouchHelper(listaPosts);
@@ -303,66 +294,28 @@ public class MenuPrincipal extends AppCompatActivity
 //        itemTouchHelper.attachToRecyclerView(listaNotas);
     }
 
-    private void configuraAdapter(List<Post> todosPosts, RecyclerView listaPosts) {
+    private void configuraAdapter(List<PostModel> todosPosts, RecyclerView listaPosts) {
         adapter = new ListaPostsAdapter(this, todosPosts);
         listaPosts.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Post post, int posicao) {
+            public void onItemClick(PostModel post, int posicao) {
                 vaiParaFormularioNotaActivityAltera(post, posicao);
             }
         });
     }
 
-    private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
+    private void vaiParaFormularioNotaActivityAltera(PostModel post, int posicao) {
         Toast.makeText(getApplicationContext(), "Teste botao", Toast.LENGTH_SHORT).show();
     }
 
 
     //para popular dados na lista da recicle view
+    public List<PostModel> pegaTodosPostsLocal(){
 
-    public List<Post> pegaTodosPosts(){
+        List<PostModel> listPosts = new ArrayList<PostModel>();
 
-        List<Post> listPosts = new ArrayList<Post>();
-
-        Post post;
-
-        for(int i = 1; i <= 3; i++){
-
-            post = new Post();
-
-            switch (i){
-                case 1:
-                    post.setCategoria("Lugares");
-                    post.setDescricao("Teste descricao 1");
-                    post.setNumAvaliacoes("200 Avaliações");
-                    post.setImagem("@drawable/belo_horizonte_mg");
-                    post.setRate("4");
-                    post.setTitulo("Belo Horizonte");
-                    break;
-                case 2:
-                    post.setCategoria("Bebidas");
-                    post.setDescricao("Vinho Sangue de Boi");
-                    post.setNumAvaliacoes("12 Avaliações");
-                    post.setImagem("@drawable/saungeboi");
-                    post.setRate("5");
-                    post.setTitulo("Vinho Sangue de Boi");
-                    break;
-                case 3:
-                    post.setCategoria("Comidas");
-                    post.setDescricao("Picanha Top");
-                    post.setNumAvaliacoes("750 Avaliações");
-                    post.setImagem("@drawable/picanha");
-                    post.setRate("3");
-                    post.setTitulo("Picanha TOP +++");
-                    break;
-            }
-
-
-
-            listPosts.add(post);
-
-        }
+        listPosts = new PostModel(getApplicationContext()).listar();
 
         return listPosts;
     }

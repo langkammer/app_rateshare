@@ -17,11 +17,14 @@ public class GenericDao extends SQLiteOpenHelper implements DaoImplementsGeneric
     private Tabela tabela;
 
     public SQLiteDatabase db;
+    public static String databaseName = new DatabaseSettings().nameDatabase;
 
-    public GenericDao(Context context,String database,Tabela tabela){
-        super(context, database,null,1);
+    public GenericDao(Context context,Tabela tabela){
+        super(context, databaseName,null,1);
         Log.i("GENERIC_DAO", "ACESSANDO CONSTRUTOR GENERIC DAO ");
         setTabela(tabela);
+        tableExists();
+
 
     }
 
@@ -114,8 +117,8 @@ public class GenericDao extends SQLiteOpenHelper implements DaoImplementsGeneric
 
     @Override
     public List<ContentValues> findAll() {
-        String sql = "SELECT * FROM "+ tabela.tabela + ";" ;
         db = getReadableDatabase();
+        String sql = "SELECT * FROM "+ tabela.tabela + ";" ;
         Cursor c = db.rawQuery(sql, null);
         ContentValues dados;
         List<ContentValues> listaContents = new ArrayList<ContentValues>();
@@ -143,4 +146,17 @@ public class GenericDao extends SQLiteOpenHelper implements DaoImplementsGeneric
 
     }
 
+    public void tableExists(){
+
+        Log.i("GENERIC_DAO", "VERIFICA SE A TABELA EXISTE");
+        try{
+            db = getWritableDatabase();
+            Cursor c = db.query(tabela.tabela,null,null,null,null,null,null);
+        }
+        catch (Exception e){
+            Log.i("GENERIC_DAO", "TABELA ENVIANDO COMANDO PARA CRIAÇÃO");
+            onCreate(db);
+        }
+
+    }
 }

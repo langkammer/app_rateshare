@@ -1,7 +1,5 @@
 package br.com.rateshare.ui.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -14,34 +12,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.rateshare.R;
-import br.com.rateshare.helper.FormPostsAdapterHelper;
 import br.com.rateshare.model.PostModel;
-import br.com.rateshare.ui.adapter.ListaPostsAdapter;
+import br.com.rateshare.ui.adapter.ListaMeusPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
 
-public class ListaPostsFrament extends Fragment {
+public class ListaMeusPostsFrament extends Fragment {
 
-    public static final String TITULO_APPBAR = "Postagens";
+    public static final String TITULO_APPBAR = "Minhas Postagens";
     private static final int POSICAO_INVALIDA = 2;
     private static final int CODIGO_REQUISICAO_ALTERA_NOTA = 1;
     private static final String CHAVE_NOTA = "nota";
     private static final int CODIGO_REQUISICAO_INSERE_NOTA = 12;
 
-    public ListaPostsAdapter adapter;
-
-    private FormPostsAdapterHelper helper;
+    public ListaMeusPostsAdapter adapter;
 
     private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(TITULO_APPBAR);
         return getView(inflater, container);
+
     }
 
     private View getView(LayoutInflater inflater, ViewGroup container) {
 
-        view = inflater.inflate(R.layout.tela_lista_posts, container, false);
+        view = inflater.inflate(R.layout.tela_meus_posts, container, false);
+
 
         List<PostModel> todasNotas = pegaTodosPosts();
         configuraRecyclerView(todasNotas);
@@ -49,53 +47,8 @@ public class ListaPostsFrament extends Fragment {
         return view;
     }
 
-
-    private void vaiParaFormularioNotaActivityInsere() {
-        Toast.makeText(getContext(), "Teste vaiParaFormularioNotaActivityInsere", Toast.LENGTH_SHORT).show();
-    }
-
-
-    private void altera(PostModel post, int posicao) {
-        Toast.makeText(getContext(), "altera", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private boolean ehPosicaoValida(int posicaoRecebida) {
-        return posicaoRecebida > POSICAO_INVALIDA;
-    }
-
-    private boolean ehResultadoAlteraNota(int requestCode, Intent data) {
-        return ehCodigoRequisicaoAlteraNota(requestCode) &&
-                temNota(data);
-    }
-
-    private boolean ehCodigoRequisicaoAlteraNota(int requestCode) {
-        return requestCode == CODIGO_REQUISICAO_ALTERA_NOTA;
-    }
-
-    private void adiciona(PostModel post) {
-        //a implementar
-    }
-
-    private boolean ehResultadoInsereNota(int requestCode, Intent data) {
-        return ehCodigoRequisicaoInsereNota(requestCode) &&
-                temNota(data);
-    }
-
-    private boolean temNota(Intent data) {
-        return data != null && data.hasExtra(CHAVE_NOTA);
-    }
-
-    private boolean resultadoOk(int resultCode) {
-        return resultCode == Activity.RESULT_OK;
-    }
-
-    private boolean ehCodigoRequisicaoInsereNota(int requestCode) {
-        return requestCode == CODIGO_REQUISICAO_INSERE_NOTA;
-    }
-
     private void configuraRecyclerView(List<PostModel> todosPosts) {
-        RecyclerView listaPosts = view.findViewById(R.id.lista_posts_recyclerview);
+        RecyclerView listaPosts = view.findViewById(R.id.lista_dos_meus_posts_RecyclerView);
         configuraAdapter(todosPosts, listaPosts);
         configuraItemTouchHelper(listaPosts);
     }
@@ -109,7 +62,7 @@ public class ListaPostsFrament extends Fragment {
     }
 
     private void configuraAdapter(List<PostModel> todosPosts, RecyclerView listaPosts) {
-        adapter = new ListaPostsAdapter(getContext(), todosPosts);
+        adapter = new ListaMeusPostsAdapter(getContext(), todosPosts);
         listaPosts.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override

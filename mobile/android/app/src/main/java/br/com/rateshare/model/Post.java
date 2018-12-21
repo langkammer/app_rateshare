@@ -1,64 +1,35 @@
 package br.com.rateshare.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Post {
 
-    private String titulo;
+    public String uid;
+    public String author;
+    public String title;
+    public String descricao;
+    public int starCount = 0;
+    public Map<String, Boolean> stars = new HashMap<>();
 
-    private String categoria;
-
-    private String rate;
-
-    private String imagem;
-
-    private String descricao;
-
-    private String numAvaliacoes;
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getRate() {
-        return rate;
-    }
-
-    public void setRate(String rate) {
-        this.rate = rate;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
+    public Post(String uid, String author, String title, String descricao) {
+        this.uid = uid;
+        this.author = author;
+        this.title = title;
         this.descricao = descricao;
     }
 
-    public String getNumAvaliacoes() {
-        return numAvaliacoes;
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("uid", uid);
+        result.put("author", author);
+        result.put("title", title);
+        result.put("body", descricao);
+        result.put("starCount", starCount);
+        result.put("stars", stars);
+
+        return result;
     }
 
-    public void setNumAvaliacoes(String numAvaliacoes) {
-        this.numAvaliacoes = numAvaliacoes;
-    }
 
-    public String getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
 }

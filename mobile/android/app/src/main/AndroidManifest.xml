@@ -17,16 +17,17 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
 
-        <activity android:name=".ui.activity.LoginActivity" />
-        <activity
-            android:name=".ui.activity.MenuPrincipal"
-            android:label="@string/title_activity_menu_principal"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.MenuPrincipal"
+            android:label="@string/title_activity_menu_principal"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <provider

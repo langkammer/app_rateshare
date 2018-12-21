@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "191955991258",
+    "firebase_url": "https://rateshareteste.firebaseio.com",
+    "project_id": "rateshareteste",
+    "storage_bucket": "rateshareteste.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191955991258:android:fff229b9af92e80c",
+        "android_client_info": {
+          "package_name": "br.com.rateshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191955991258-8iebbpcbrpd6pl3mthq5n88vegcfns7p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.rateshare",
+            "certificate_hash": "911cb947f580f5fcd12fcfe01eb700e110b16ecb"
+          }
+        },
+        {
+          "client_id": "191955991258-rjrad976ququnr14v2b4vnu3cqr4obdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVkwU4yQBEvimmV7cL0HAZdzPErhRXVIQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191955991258-rjrad976ququnr14v2b4vnu3cqr4obdt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

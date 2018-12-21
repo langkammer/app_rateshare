@@ -37,63 +37,33 @@
                 tools:src="@sample/posts.json/posts/imagem" />
 
 
-            <ImageView
-                android:id="@+id/item_card_cat"
-                android:layout_width="70dp"
+            <TextView
+                android:id="@+id/item_post_categoria"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:contentDescription="@string/todo"
-                app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
-                app:layout_constraintTop_toTopOf="@+id/item_post_imagem"
-                app:srcCompat="@drawable/shape_cat" />
-
-            <ImageView
-                android:id="@+id/item_card_titulo"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:alpha="0.90"
-                android:contentDescription="@string/todo"
-                app:layout_constraintStart_toStartOf="@+id/item_post_imagem"
-                app:layout_constraintTop_toTopOf="@+id/item_post_imagem"
-                app:srcCompat="@drawable/shape_titulo" />
-
-            <TextView
-                android:id="@+id/item_post_categoria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginRight="2dp"
+                android:background="@drawable/shape_cat"
                 android:text="@string/categoria"
                 android:textColor="@color/edtBgWhite"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/item_card_cat"
-                app:layout_constraintEnd_toEndOf="@+id/item_card_cat"
-                app:layout_constraintStart_toStartOf="@+id/item_card_cat"
-                app:layout_constraintTop_toTopOf="@+id/item_card_cat" />
+                app:layout_constraintEnd_toEndOf="@+id/item_post_imagem"
+                app:layout_constraintTop_toTopOf="@+id/item_post_imagem" />
 
             <TextView
                 android:id="@+id/item_post_titulo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_titulo"
                 android:text="@string/titulo"
                 android:textColor="@color/edtBgWhite"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/item_card_titulo"
-                app:layout_constraintEnd_toEndOf="@+id/item_card_titulo"
-                app:layout_constraintHorizontal_bias="0.11"
-                app:layout_constraintStart_toStartOf="@+id/item_card_titulo"
-                app:layout_constraintTop_toTopOf="@+id/item_card_titulo" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/item_post_imagem" />
 
             <ImageView
                 android:id="@+id/item_post_detail"
@@ -122,8 +92,7 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/item_post_detail"
                 app:layout_constraintStart_toStartOf="@+id/item_post_detail"
-                app:layout_constraintTop_toTopOf="@+id/item_post_detail"
-                app:layout_constraintVertical_bias="0.51" />
+                app:layout_constraintTop_toTopOf="@+id/item_post_detail" />
 
             <RatingBar
                 android:id="@+id/item_rating_bar"

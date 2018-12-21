@@ -10,6 +10,6 @@ public class ItemPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_post);
+        setContentView(R.layout.tela_item_post);
     }
 }

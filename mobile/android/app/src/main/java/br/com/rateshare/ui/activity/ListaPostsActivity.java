@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.rateshare.R;
-import br.com.rateshare.model.Post;
+import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
 
@@ -30,11 +30,11 @@ public class ListaPostsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_posts);
+        setContentView(R.layout.tela_lista_posts);
 
         setTitle(TITULO_APPBAR);
 
-        List<Post> todasNotas = pegaTodosPosts();
+        List<PostModel> todasNotas = pegaTodosPosts();
         configuraRecyclerView(todasNotas);
 
     }
@@ -58,7 +58,7 @@ public class ListaPostsActivity extends AppCompatActivity {
         //nao implementado
     }
 
-    private void altera(Post post, int posicao) {
+    private void altera(PostModel post, int posicao) {
         Toast.makeText(getApplicationContext(), "altera", Toast.LENGTH_SHORT).show();
 
     }
@@ -76,7 +76,7 @@ public class ListaPostsActivity extends AppCompatActivity {
         return requestCode == CODIGO_REQUISICAO_ALTERA_NOTA;
     }
 
-    private void adiciona(Post post) {
+    private void adiciona(PostModel post) {
         //a implementar
     }
 
@@ -97,7 +97,7 @@ public class ListaPostsActivity extends AppCompatActivity {
         return requestCode == CODIGO_REQUISICAO_INSERE_NOTA;
     }
 
-    private void configuraRecyclerView(List<Post> todosPosts) {
+    private void configuraRecyclerView(List<PostModel> todosPosts) {
         RecyclerView listaPosts = findViewById(R.id.lista_posts_recyclerview);
         configuraAdapter(todosPosts, listaPosts);
         configuraItemTouchHelper(listaPosts);
@@ -111,65 +111,28 @@ public class ListaPostsActivity extends AppCompatActivity {
 //        itemTouchHelper.attachToRecyclerView(listaNotas);
     }
 
-    private void configuraAdapter(List<Post> todosPosts, RecyclerView listaPosts) {
+    private void configuraAdapter(List<PostModel> todosPosts, RecyclerView listaPosts) {
         adapter = new ListaPostsAdapter(this, todosPosts);
         listaPosts.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Post post, int posicao) {
+            public void onItemClick(PostModel post, int posicao) {
                 vaiParaFormularioNotaActivityAltera(post, posicao);
             }
         });
     }
 
-    private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
+    private void vaiParaFormularioNotaActivityAltera(PostModel post, int posicao) {
         Toast.makeText(getApplicationContext(), "Teste botao", Toast.LENGTH_SHORT).show();
     }
 
 
 
-    public List<Post> pegaTodosPosts(){
+    public List<PostModel> pegaTodosPosts(){
 
-        List<Post> listPosts = new ArrayList<Post>();
+        List<PostModel> listPosts = new ArrayList<PostModel>();
 
-        Post post;
-
-        for(int i = 1; i <= 3; i++){
-
-            post = new Post();
-
-            switch (i){
-                case 1:
-                    post.setCategoria("Lugares");
-                    post.setDescricao("Teste descricao 1");
-                    post.setNumAvaliacoes("200 Avaliações");
-                    post.setImagem("@drawable/belo_horizonte_mg");
-                    post.setRate("4");
-                    post.setTitulo("Belo Horizonte");
-                    break;
-                case 2:
-                    post.setCategoria("Bebidas");
-                    post.setDescricao("Vinho Sangue de Boi");
-                    post.setNumAvaliacoes("12 Avaliações");
-                    post.setImagem("@drawable/saungeboi");
-                    post.setRate("5");
-                    post.setTitulo("Vinho Sangue de Boi");
-                    break;
-                case 3:
-                    post.setCategoria("Comidas");
-                    post.setDescricao("Picanha Top");
-                    post.setNumAvaliacoes("750 Avaliações");
-                    post.setImagem("@drawable/picanha");
-                    post.setRate("3");
-                    post.setTitulo("Picanha TOP +++");
-                    break;
-            }
-
-
-
-            listPosts.add(post);
-
-        }
+        listPosts = new PostModel(getApplicationContext()).listar();
 
         return listPosts;
     }

@@ -4,23 +4,25 @@ package br.com.rateshare.helper;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import br.com.rateshare.R;
 import br.com.rateshare.dao.generic.DatabaseSettings;
 import br.com.rateshare.model.CategoriaModel;
-import br.com.rateshare.model.Postagem;
+import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.SpinCategoriaAdapter;
 
 /**
@@ -34,48 +36,48 @@ public class FormPostsAdapterHelper {
     private final RatingBar formItemRate;
     private final EditText formItemTexteditDescript;
     private final Button form_item_btn_salvar;
+    private final ImageButton formItemBtnCamera;
+
     public static String databaseName = new DatabaseSettings().nameDatabase;
     private SpinCategoriaAdapter adapter;
     private Spinner mySpinner;
 
 
-    private Postagem postagem;
+    private PostModel postagem;
 
     private Context context;
 
     public FormPostsAdapterHelper(View view) {
-        formItemEitTitulo   =   view.findViewById(R.id.form_item_edit_titulo);
-        formItemOptionCateg =   view.findViewById(R.id.form_item_option_categ);
-        formItemRate        =   view.findViewById(R.id.form_item_rate);
-        formItemImageview   =   view.findViewById(R.id.form_item_image_view);
+        formItemEitTitulo         = view.findViewById(R.id.form_item_edit_titulo);
+        formItemOptionCateg       = view.findViewById(R.id.form_item_option_categ);
+        formItemRate              = view.findViewById(R.id.form_item_rate);
+        formItemImageview         = view.findViewById(R.id.form_item_image_view);
         formItemTexteditDescript  = view.findViewById(R.id.form_item_textedit_descript);
         form_item_btn_salvar      = view.findViewById(R.id.form_item_btn_salvar);
+        formItemBtnCamera         = view.findViewById(R.id.form_item_btn_camera);
         this.context = view.getContext();
     }
 
 
 
-    public Postagem pegaPostagem() {
-        postagem.setTitulo(getFormItemEitTitulo().getText().toString());
-        postagem.setDescricao(getFormItemTexteditDescript().getText().toString());
-        //popular categoria
-        List<CategoriaModel> listCat = new ArrayList<CategoriaModel>();
-        postagem.setRate(Double.valueOf(getFormItemRate().getProgress()));
-        postagem.setImagem((String) getFormItemImageview().getTag());
+    public PostModel pegaPostagem() {
+        postagem.titulo = getFormItemEitTitulo().getText().toString();
+        postagem.descricao = getFormItemTexteditDescript().getText().toString();
+        postagem.nota = Double.valueOf(getFormItemRate().getProgress());
+        postagem.id_categoria_externa = getFormItemOptionCateg().getSelectedItem().toString();
+        postagem.data = (String) getFormItemImageview().getTag();
         return postagem;
     }
 
-    public void preencheFormulario(Postagem postagem) {
-        CategoriaModel categoriaModel = new CategoriaModel(context,databaseName);
+    public void preencheFormulario(PostModel postagem) {
+        CategoriaModel categoriaModel = new CategoriaModel(context);
 
         ArrayList<CategoriaModel> models =  new ArrayList<>();;
 
         models = new ArrayList<CategoriaModel>(categoriaModel.listar());
 
-        ArrayAdapter<CategoriaModel> arrayAdapter  = new ArrayAdapter(context, android.R.layout.simple_spinner_item, models);
-
         adapter = new SpinCategoriaAdapter(context,
-                android.R.layout.simple_spinner_item,
+                R.layout.simple_item_spiner_categoria,
                 models);
         getFormItemOptionCateg().setAdapter(adapter);
 
@@ -86,6 +88,7 @@ public class FormPostsAdapterHelper {
 
     public void carregaImagem(String caminhoFoto) {
         if (caminhoFoto != null) {
+            Log.i("FOTO ",caminhoFoto);
             File imgFile = new File(caminhoFoto);
             Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             getFormItemImageview().setImageBitmap(imageBitmap);
@@ -118,26 +121,38 @@ public class FormPostsAdapterHelper {
     }
 
 
-    public boolean validateFields(){
-        boolean retorno = false;
+    public HashMap<String,String> validateFields(){
+        HashMap<String,String>  setResult = new HashMap<String,String> ();
+        setResult.put("resposta","s");
+        setResult.put("msg","Sucesso !");
 
         //valida se tem preenchimento de stars
         if(getFormItemRate().getProgress() == 0) {
-            Toast.makeText(context,"Informe a quantidade de estrela que deseja avaliar a foto",Toast.LENGTH_SHORT);
-            retorno = false;
+            setResult.put("resposta","e");
+            setResult.put("msg","Informe a quantidade de estrela que deseja avaliar a foto");
+            return setResult;
         }
-        if(getFormItemEitTitulo().getText() != null){
-            Toast.makeText(context,"Informe um titulo",Toast.LENGTH_SHORT);
-            retorno = false;
+        if(getFormItemEitTitulo().getText().toString().isEmpty()){
+            setResult.put("resposta","e");
+            setResult.put("msg","Informe um titulo");
+            return setResult;
         }
-        if(getFormItemTexteditDescript().getText() != null){
-            Toast.makeText(context,"Informe uma descrição",Toast.LENGTH_SHORT);
-            retorno = false;
+        if(getFormItemTexteditDescript().getText().toString().isEmpty()){
+            setResult.put("resposta","e");
+            setResult.put("msg","Informe um descrição");
+            return setResult;
         }
         if(getFormItemOptionCateg().getSelectedItem() == null){
-            Toast.makeText(context,"Informe uma categoria",Toast.LENGTH_SHORT);
-            retorno = false;
+            setResult.put("resposta","e");
+            setResult.put("msg","Informe uma categoria");
+            return setResult;
         }
-        return retorno;
+        return setResult;
     }
+
+    public ImageButton getFormItemBtnCamera() {
+        return formItemBtnCamera;
+    }
+
+
 }

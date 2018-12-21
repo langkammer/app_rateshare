@@ -12,20 +12,19 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 import br.com.rateshare.R;
 import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
 
-public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.PostViewHolder>{
+public class ListaMeusPostsAdapter extends RecyclerView.Adapter<ListaMeusPostsAdapter.PostViewHolder>{
 
     private final List<PostModel> posts;
     private final Context context;
     private OnItemClickListener onItemClickListener;
 
-    public ListaPostsAdapter(Context context, List<PostModel> posts) {
+    public ListaMeusPostsAdapter(Context context, List<PostModel> posts) {
         this.context = context;
         this.posts = posts;
     }
@@ -35,14 +34,14 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
     }
 
     @Override
-    public ListaPostsAdapter.PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListaMeusPostsAdapter.PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View viewCriada = LayoutInflater.from(context)
-                .inflate(R.layout.tela_item_post, parent, false);
+                .inflate(R.layout.tela_meus_item_post, parent, false);
         return new PostViewHolder(viewCriada);
     }
 
     @Override
-    public void onBindViewHolder(ListaPostsAdapter.PostViewHolder holder, int position) {
+    public void onBindViewHolder(ListaMeusPostsAdapter.PostViewHolder holder, int position) {
         PostModel post = posts.get(position);
         holder.vincula(post);
     }
@@ -52,20 +51,6 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
         return posts.size();
     }
 
-    public void altera(int posicao, PostModel post) {
-        posts.set(posicao, post);
-        notifyDataSetChanged();
-    }
-
-    public void remove(int posicao) {
-        posts.remove(posicao);
-        notifyItemRemoved(posicao);
-    }
-
-    public void troca(int posicaoInicial, int posicaoFinal) {
-        Collections.swap(posts, posicaoInicial, posicaoFinal);
-        notifyItemMoved(posicaoInicial, posicaoFinal);
-    }
 
     class PostViewHolder extends RecyclerView.ViewHolder {
 
@@ -74,6 +59,7 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
         private final TextView numAvaliacoes;
         private final ImageView image;
         private final RatingBar ratingBar;
+        private final ImageView imgLegendStatus;
         private PostModel post;
 
         public PostViewHolder(View itemView) {
@@ -83,7 +69,7 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
             numAvaliacoes = itemView.findViewById(R.id.item_num_avaliacoes);
             image = itemView.findViewById(R.id.item_post_imagem);
             ratingBar = itemView.findViewById(R.id.item_rating_bar);
-
+            imgLegendStatus  = itemView.findViewById(R.id.img_status_legend);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -104,7 +90,10 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
             ratingBar.setRating(post.nota.intValue());
             File imgFile = new File(post.caminho_foto);
             Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            image.setImageBitmap(imageBitmap);
+            if(post.flagEnvio == 0)
+                imgLegendStatus.setImageResource(R.drawable.ic_cached_black_24dp);
+            if(post.flagEnvio == 1)
+                imgLegendStatus.setImageResource(R.drawable.ic_check_black_24dp);
         }
     }
 
