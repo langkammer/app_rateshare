@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import br.com.rateshare.R;
+import br.com.rateshare.model.User;
+import br.com.rateshare.util.DataUtil;
 
 /**
  * Created by alura on 12/08/15.
@@ -29,6 +31,15 @@ public class NovoUsuarioHelper {
     }
 
 
+    public User getPopulateUsuario(){
+        User user = new User();
+        user.username = editEmail.getText().toString();
+        user.nameuser = editNome.getText().toString();
+        user.email    = editEmail.getText().toString();
+        user.data = DataUtil.data;
+        return  user;
+    }
+
     public EditText getEditNome() {
         return editNome;
     }
@@ -48,4 +59,9 @@ public class NovoUsuarioHelper {
     public Button getBtnVoltar() {
         return btnVoltar;
     }
+
+    public String getPass() {
+        return passSenha.getText().toString();
+    }
+
 }

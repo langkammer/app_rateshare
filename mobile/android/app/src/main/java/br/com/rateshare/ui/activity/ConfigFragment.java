@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.auth.FirebaseAuth;
+
 import br.com.rateshare.R;
 
 public class ConfigFragment extends Fragment {
@@ -25,4 +28,6 @@ public class ConfigFragment extends Fragment {
 
         return view;
     }
+
+
 }

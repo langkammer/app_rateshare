@@ -2,6 +2,7 @@ package br.com.rateshare.model;
 
 public class User {
     public String username;
+    public String nameuser;
     public String email;
     public String pathFoto;
     public String data;
@@ -13,12 +14,14 @@ public class User {
     }
 
     public User(String username,
+                String nameuser,
                 String email,
                 String pathFoto,
                 String data,
                 boolean ativo,
                 boolean adm) {
         this.username = username;
+        this.nameuser = nameuser;
         this.email = email;
         this.pathFoto = pathFoto;
         this.data = data;
