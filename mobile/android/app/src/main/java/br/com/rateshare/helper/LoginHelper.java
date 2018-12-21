@@ -20,7 +20,7 @@ public class LoginHelper {
 
 
     public LoginHelper(Activity act) {
-        btnLoginNormal         = act.findViewById(R.id.form_item_edit_titulo);
+        btnLoginNormal         = act.findViewById(R.id.btnLogin);
         btnLoginfacebook       = act.findViewById(R.id.btnFacebookLogin);
         btnLoginTwitter        = act.findViewById(R.id.btnTwtLogin);
         btnEsqueciSenha        = act.findViewById(R.id.esquciSenha);
