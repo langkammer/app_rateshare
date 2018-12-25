@@ -33,8 +33,7 @@ public class NovoUsuarioHelper {
 
     public User getPopulateUsuario(){
         User user = new User();
-        user.username = editEmail.getText().toString();
-        user.nameuser = editNome.getText().toString();
+        user.nome = editNome.getText().toString();
         user.email    = editEmail.getText().toString();
         user.data = DataUtil.data;
         return  user;

@@ -1,7 +1,6 @@
 package br.com.rateshare.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.rateshare.R;
-import br.com.rateshare.model.CategoriaModel;
+import br.com.rateshare.model.Categoria;
 
-public class SpinCategoriaAdapter extends ArrayAdapter<CategoriaModel> {
+public class SpinCategoriaAdapter extends ArrayAdapter<Categoria> {
 
     private Context context;
-    private List<CategoriaModel> values;
+    private List<Categoria> values;
 
     public SpinCategoriaAdapter(Context context, int textViewResourceId,
-                       List<CategoriaModel> values) {
+                       List<Categoria> values) {
         super(context, textViewResourceId, values);
         this.context = context;
         this.values = values;
@@ -31,7 +30,7 @@ public class SpinCategoriaAdapter extends ArrayAdapter<CategoriaModel> {
     }
 
     @Override
-    public CategoriaModel getItem(int position){
+    public Categoria getItem(int position){
         return values.get(position);
     }
 
@@ -56,7 +55,6 @@ public class SpinCategoriaAdapter extends ArrayAdapter<CategoriaModel> {
             // Then you can get the current item using the values array (Users array) and the current position
             // You can NOW reference each method you has created in your bean object (User class)
             label.setText(values.get(position).nome);
-            label2.setText(values.get(position).id_externo);
             // And finally return your dynamic (or custom) view for each spinner item
             return convertView;
 
@@ -82,7 +80,6 @@ public class SpinCategoriaAdapter extends ArrayAdapter<CategoriaModel> {
             // Then you can get the current item using the values array (Users array) and the current position
             // You can NOW reference each method you has created in your bean object (User class)
             label.setText(values.get(position).nome);
-            label2.setText(values.get(position).id_externo);
             // And finally return your dynamic (or custom) view for each spinner item
             return convertView;
 

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
 import br.com.rateshare.R;
 
 /**
@@ -17,6 +19,8 @@ public class LoginHelper {
     private final Button btnLoginTwitter;
     private final Button btnEsqueciSenha;
     private final Button btnCadastrar;
+    private final EditText ediEmail;
+    private final EditText editPass;
 
 
     public LoginHelper(Activity act) {
@@ -25,6 +29,8 @@ public class LoginHelper {
         btnLoginTwitter        = act.findViewById(R.id.btnTwtLogin);
         btnEsqueciSenha        = act.findViewById(R.id.esquciSenha);
         btnCadastrar           = act.findViewById(R.id.btnCadastrar);
+        ediEmail               = act.findViewById(R.id.email);
+        editPass               = act.findViewById(R.id.senha);
     }
 
 
@@ -46,5 +52,13 @@ public class LoginHelper {
 
     public Button getBtnCadastrar() {
         return btnCadastrar;
+    }
+
+    public EditText getEdiEmail(){
+        return ediEmail;
+    }
+
+    public EditText getEditPass(){
+        return editPass;
     }
 }

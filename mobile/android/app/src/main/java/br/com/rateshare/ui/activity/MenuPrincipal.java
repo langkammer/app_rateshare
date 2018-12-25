@@ -21,6 +21,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,8 +47,18 @@ public class MenuPrincipal extends AppCompatActivity
 
 
     public ListaPostsAdapter adapter;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +236,7 @@ public class MenuPrincipal extends AppCompatActivity
             callFragmentsMeusPosts();
         }
         if(id == R.id.menu_item_sair){
+            mAuth.signOut();
             intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
             this.finish();

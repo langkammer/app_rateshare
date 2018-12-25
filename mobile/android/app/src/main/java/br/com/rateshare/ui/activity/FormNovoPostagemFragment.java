@@ -8,24 +8,35 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import br.com.rateshare.R;
 import br.com.rateshare.dao.generic.DatabaseSettings;
 import br.com.rateshare.helper.FormPostsAdapterHelper;
+import br.com.rateshare.model.Categoria;
 import br.com.rateshare.model.CategoriaModel;
+import br.com.rateshare.model.Post;
 import br.com.rateshare.model.PostModel;
 import br.com.rateshare.util.DataUtil;
 import br.com.rateshare.util.FotoUtil;
 
 public class FormNovoPostagemFragment extends Fragment {
 
+    private static final String TAG = "FIREBASE NOVO POST";
     private View view;
 
     private FormPostsAdapterHelper helper;
@@ -35,6 +46,10 @@ public class FormNovoPostagemFragment extends Fragment {
     public static final String TITULO_APPBAR = "Nova Postagem";
 
     public static String databaseName = new DatabaseSettings().nameDatabase;
+
+    private FirebaseAuth mAuth;
+
+    private DatabaseReference mDatabase;
 
 
 
@@ -120,6 +135,15 @@ public class FormNovoPostagemFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == getActivity().RESULT_OK) {
@@ -131,33 +155,70 @@ public class FormNovoPostagemFragment extends Fragment {
 
     private void salvarPost() {
 
-        PostModel postModel = new PostModel(getContext());
+        Post postBean = new Post();
 
-        postModel.data = DataUtil.data;
+        postBean.data = DataUtil.data;
 
-        CategoriaModel categoriaSelecionada = (CategoriaModel) helper.getFormItemOptionCateg().getSelectedItem();
+        Categoria categoriaSelecionada = (Categoria) helper.getFormItemOptionCateg().getSelectedItem();
 
-        postModel.id_categoria_externa = categoriaSelecionada.id_externo ;
+        postBean.categoria = categoriaSelecionada;
 
-        postModel.nota = (double) helper.getFormItemRate().getProgress();
+        HashMap<String, Integer> stars = new HashMap<>();
 
-        postModel.caminho_foto = this.pathFoto;
+        stars.put(mAuth.getUid(),helper.getFormItemRate().getProgress());
 
-        postModel.titulo = helper.getFormItemEitTitulo().getText().toString();
+        postBean.stars =  stars;
 
-        postModel.descricao = helper.getFormItemTexteditDescript().getText().toString();
+        postBean.pathFoto = this.pathFoto;
 
-        postModel.nome_categoria = categoriaSelecionada.nome;
+        postBean.titulo = helper.getFormItemEitTitulo().getText().toString();
 
-        postModel.id_user_externo = "1"; // a implementar que vem do usuario logado
+        postBean.descricao = helper.getFormItemTexteditDescript().getText().toString();
 
-        postModel.num_avaliacoes = "1"; // vem do banco externamente
+        postBean.numAvaliacoes = 1;
 
-        postModel.flagEnvio = 0;
+        postBean.aprovado = false;
+        criaPostagemFirebase(postBean);
 
-        PostModel post = postModel.salvar();
+    }
 
+    public void criaPostagemFirebase(final Post post){
+        mDatabase.child("posts").child(mAuth.getUid()).setValue(post)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
+                        vincululaPostMeuPost(post);
+                        getActivity().getFragmentManager().popBackStack();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "NÃO FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
 
+                    }
+                });
+        Toast.makeText(getContext(), "Post Salvo com Sucesso ! " , Toast.LENGTH_LONG).show();
+
+        return;
+    }
+
+    public void vincululaPostMeuPost(Post post){
+        mDatabase.child("meus-posts").child(mAuth.getUid()).setValue(post)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "NÃO FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
+
+                    }
+                });
         Toast.makeText(getContext(), "Post Salvo com Sucesso ! " , Toast.LENGTH_LONG).show();
 
         return;

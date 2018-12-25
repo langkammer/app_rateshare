@@ -2,12 +2,18 @@ package br.com.rateshare.ui.activity;
 
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -17,6 +23,7 @@ import br.com.rateshare.helper.LoginHelper;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "FIREBASE_LOGIN";
     private LoginHelper helper;
     private FirebaseAuth firebaseAuth;
     private Intent intent;
@@ -58,13 +65,16 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if(currentUser != null){
             if(currentUser.getEmail() != null) {
-                startActivity(new Intent(getApplicationContext(), MenuPrincipal.class));
-                finish();
+                vaiParaMenu();
             }
         }
 
     }
 
+    private void vaiParaMenu() {
+        startActivity(new Intent(getApplicationContext(), MenuPrincipal.class));
+        finish();
+    }
 
 
     public void cadastrar(){
@@ -80,7 +90,25 @@ public class LoginActivity extends AppCompatActivity {
         return fragmentManager.beginTransaction();
     }
 
-    public static void logarNormal(){
+    public void logarNormal(){
+        firebaseAuth.signInWithEmailAndPassword(helper.getEdiEmail().getText().toString(), helper.getEditPass().getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            vaiParaMenu();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
 
     }
 }
