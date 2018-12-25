@@ -20,6 +20,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class FormPostsAdapterHelper {
     private DatabaseReference mDatabase;
 
 
+
     private PostModel postagem;
 
     private Context context;
@@ -69,6 +71,7 @@ public class FormPostsAdapterHelper {
         formItemTexteditDescript  = view.findViewById(R.id.form_item_textedit_descript);
         form_item_btn_salvar      = view.findViewById(R.id.form_item_btn_salvar);
         formItemBtnCamera         = view.findViewById(R.id.form_item_btn_camera);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         this.context = view.getContext();
     }
 
@@ -84,10 +87,7 @@ public class FormPostsAdapterHelper {
     }
 
     public void preencheFormulario(PostModel postagem) {
-        CategoriaModel categoriaModel = new CategoriaModel(context);
-
         getCategorias();
-
         adapter = new SpinCategoriaAdapter(context,
                 R.layout.simple_item_spiner_categoria,
                 listaCategorias);
