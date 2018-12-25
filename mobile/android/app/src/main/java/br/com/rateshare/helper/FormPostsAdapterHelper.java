@@ -16,11 +16,13 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseError;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ import br.com.rateshare.ui.adapter.SpinCategoriaAdapter;
  */
 public class FormPostsAdapterHelper {
 
+    private static final String TAG = "firebase ";
     private final ImageView formItemImageview;
     private final EditText formItemEitTitulo;
     private final Spinner formItemOptionCateg;
@@ -99,32 +102,23 @@ public class FormPostsAdapterHelper {
 
     public void getCategorias(){
 
-        DatabaseReference globalPostRef = mDatabase.child("categoria").getParent();
+        DatabaseReference globalPostRef = mDatabase.child("categorias");
+
         listaCategorias = new ArrayList<Categoria>();
 
         // Database listener
-        mDatabase.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                // Put a new user in the list
-                // Cast the dataSnapshot data to the User class
-                listaCategorias = (ArrayList<Categoria>) dataSnapshot.getValue();
-                keyCategoria = dataSnapshot.getKey();
-                // Update the listView
-            }
+        mDatabase.addValueEventListener(new ValueEventListener() {
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//                listaCategorias = (ArrayList<Categoria>) dataSnapshot.getValue();
+                //notifyDataSetChanged();
+                listaCategorias.clear();
 
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Categoria a = postSnapshot.getValue(Categoria.class);
+                    listaCategorias.add(a);
+                }
 
             }
 

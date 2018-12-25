@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
@@ -16,11 +17,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,9 +35,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.rateshare.R;
+import br.com.rateshare.model.Categoria;
 import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
+import br.com.rateshare.util.DataUtil;
 import br.com.rateshare.util.FotoUtil;
 
 public class MenuPrincipal extends AppCompatActivity
@@ -44,6 +50,7 @@ public class MenuPrincipal extends AppCompatActivity
     private static final int CODIGO_REQUISICAO_ALTERA_NOTA = 1;
     private static final String CHAVE_NOTA = "nota";
     private static final int CODIGO_REQUISICAO_INSERE_NOTA = 12;
+    private static final String TAG = "CAT";
 
 
     public ListaPostsAdapter adapter;
@@ -233,7 +240,31 @@ public class MenuPrincipal extends AppCompatActivity
             callFragmentPosts();
         }
         if(id == R.id.menu_meus_posts){
-            callFragmentsMeusPosts();
+            String[] array =  {"FILMES","BEBIDAS","LUGARES","COISAS"};
+
+            for(int i = 0; i < array.length; i ++){
+                Categoria categoria = new Categoria();
+                categoria.data = DataUtil.data;
+                categoria.nome = array[i];
+                mDatabase.child("categorias").push().setValue(categoria)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Write was successful!
+                                // ...
+                                Log.d(TAG, "FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "NÃO FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
+
+                            }
+                        });
+            }
+
+//            callFragmentsMeusPosts();
         }
         if(id == R.id.menu_item_sair){
             mAuth.signOut();
