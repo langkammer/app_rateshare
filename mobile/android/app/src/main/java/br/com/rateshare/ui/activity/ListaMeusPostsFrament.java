@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.rateshare.R;
+import br.com.rateshare.model.Post;
 import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.ListaMeusPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
@@ -41,13 +42,13 @@ public class ListaMeusPostsFrament extends Fragment {
         view = inflater.inflate(R.layout.tela_meus_posts, container, false);
 
 
-        List<PostModel> todasNotas = pegaTodosPosts();
+        List<Post> todasNotas = pegaTodosPosts();
         configuraRecyclerView(todasNotas);
 
         return view;
     }
 
-    private void configuraRecyclerView(List<PostModel> todosPosts) {
+    private void configuraRecyclerView(List<Post> todosPosts) {
         RecyclerView listaPosts = view.findViewById(R.id.lista_dos_meus_posts_RecyclerView);
         configuraAdapter(todosPosts, listaPosts);
         configuraItemTouchHelper(listaPosts);
@@ -61,29 +62,29 @@ public class ListaMeusPostsFrament extends Fragment {
 //        itemTouchHelper.attachToRecyclerView(listaNotas);
     }
 
-    private void configuraAdapter(List<PostModel> todosPosts, RecyclerView listaPosts) {
+    private void configuraAdapter(List<Post> todosPosts, RecyclerView listaPosts) {
         adapter = new ListaMeusPostsAdapter(getContext(), todosPosts);
         listaPosts.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(PostModel post, int posicao) {
+            public void onItemClick(Post post, int posicao) {
                 vaiParaFormularioNotaActivityAltera(post, posicao);
             }
         });
     }
 
-    private void vaiParaFormularioNotaActivityAltera(PostModel post, int posicao) {
+    private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
         Toast.makeText(getContext(), "Teste botao", Toast.LENGTH_SHORT).show();
     }
 
 
 
-    public List<PostModel> pegaTodosPosts(){
+    public List<Post> pegaTodosPosts(){
 
-        List<PostModel> listPosts = new ArrayList<PostModel>();
+//        List<PostModel> listPosts = new ArrayList<PostModel>();
+//
+//        listPosts = new PostModel(getContext()).listar();
 
-        listPosts = new PostModel(getContext()).listar();
-
-        return listPosts;
+        return null;
     }
 }

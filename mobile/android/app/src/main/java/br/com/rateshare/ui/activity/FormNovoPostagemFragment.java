@@ -1,6 +1,8 @@
 package br.com.rateshare.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,14 +14,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,9 +36,7 @@ import br.com.rateshare.R;
 import br.com.rateshare.dao.generic.DatabaseSettings;
 import br.com.rateshare.helper.FormPostsAdapterHelper;
 import br.com.rateshare.model.Categoria;
-import br.com.rateshare.model.CategoriaModel;
 import br.com.rateshare.model.Post;
-import br.com.rateshare.model.PostModel;
 import br.com.rateshare.util.DataUtil;
 import br.com.rateshare.util.FotoUtil;
 
@@ -50,6 +56,12 @@ public class FormNovoPostagemFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     private DatabaseReference mDatabase;
+
+    private FirebaseStorage storage;
+
+    private StorageReference mStorageRef;
+
+    private String keyPost = "";
 
 
 
@@ -75,6 +87,10 @@ public class FormNovoPostagemFragment extends Fragment {
 
     }
 
+    private void exibirProgress(boolean exibir) {
+        helper.getProgressBar().setVisibility(exibir ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -84,7 +100,7 @@ public class FormNovoPostagemFragment extends Fragment {
         if (parametros != null) {
             String pathFile = (String) parametros.getSerializable("pathFile");
             putPathFoto(pathFile);
-            helper.preencheFormulario(new PostModel(getContext()));
+            helper.preencheFormulario(new Post());
             helper.carregaImagem(this.pathFoto);
 
         }
@@ -105,6 +121,22 @@ public class FormNovoPostagemFragment extends Fragment {
                 // Perform action on click
                 abreCamera();
             }
+        });
+
+        helper.getFormItemOptionCateg().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // your code here
+                Log.d(TAG,"SELE CAT");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+                Log.d(TAG,"nao selectionou nada");
+
+            }
+
         });
 
 
@@ -140,7 +172,7 @@ public class FormNovoPostagemFragment extends Fragment {
         // Check if user is signed in (non-null) and update UI accordingly.
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        mStorageRef = FirebaseStorage.getInstance().getReference();
     }
 
     @Override
@@ -169,7 +201,7 @@ public class FormNovoPostagemFragment extends Fragment {
 
         postBean.stars =  stars;
 
-        postBean.pathFoto = this.pathFoto;
+        postBean.pathFotoAndroid = this.pathFoto;
 
         postBean.titulo = helper.getFormItemEitTitulo().getText().toString();
 
@@ -180,47 +212,62 @@ public class FormNovoPostagemFragment extends Fragment {
         postBean.aprovado = false;
         criaPostagemFirebase(postBean);
 
+
+
+    }
+
+    public void uploadImage(){
+        // cria referencias da imagem e faz upload
+        StorageReference mountainsRef = mStorageRef.child("posts/" + keyPost);
+        // Create a reference to 'images/mountains.jpg'
+        StorageReference mountainImagesRef = mStorageRef.child("posts/" + keyPost);
+
+        // While the file names are the same, the references point to different files
+        mountainsRef.getName().equals(mountainImagesRef.getName());    // true
+        mountainsRef.getPath().equals(mountainImagesRef.getPath());    // false
+
+        Bitmap bitmap = ((BitmapDrawable) helper.getFormItemImageview().getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        exibirProgress(true);
+        UploadTask uploadTask = mountainsRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                exibirProgress(false);
+
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+                exibirProgress(false);
+                getActivity().onBackPressed();
+
+
+
+            }
+        });
     }
 
     public void criaPostagemFirebase(final Post post){
-        mDatabase.child("posts").child(mAuth.getUid()).setValue(post)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
-                        vincululaPostMeuPost(post);
-                        getActivity().getFragmentManager().popBackStack();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "NÃO FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
 
+        mDatabase.child("posts")
+                .push()
+                .setValue(post, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError,
+                                           DatabaseReference databaseReference) {
+                         keyPost = databaseReference.getKey();
+                         uploadImage();
                     }
                 });
-        Toast.makeText(getContext(), "Post Salvo com Sucesso ! " , Toast.LENGTH_LONG).show();
 
-        return;
+        Toast.makeText(getContext(), "Post Salvo com Sucesso ! " , Toast.LENGTH_LONG).show();
     }
 
-    public void vincululaPostMeuPost(Post post){
-        mDatabase.child("meus-posts").child(mAuth.getUid()).setValue(post)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "NÃO FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
 
-                    }
-                });
-        Toast.makeText(getContext(), "Post Salvo com Sucesso ! " , Toast.LENGTH_LONG).show();
-
-        return;
-    }
 }

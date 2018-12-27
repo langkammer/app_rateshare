@@ -11,12 +11,6 @@
         android:text="Nome Categoria"
         android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/categoriaText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Codigo Cat" />
-
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

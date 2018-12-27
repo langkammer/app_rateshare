@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.rateshare.R;
+import br.com.rateshare.model.Post;
 import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
@@ -34,7 +35,7 @@ public class ListaPostsActivity extends AppCompatActivity {
 
         setTitle(TITULO_APPBAR);
 
-        List<PostModel> todasNotas = pegaTodosPosts();
+        List<Post> todasNotas = pegaTodosPosts();
         configuraRecyclerView(todasNotas);
 
     }
@@ -58,7 +59,7 @@ public class ListaPostsActivity extends AppCompatActivity {
         //nao implementado
     }
 
-    private void altera(PostModel post, int posicao) {
+    private void altera(Post post, int posicao) {
         Toast.makeText(getApplicationContext(), "altera", Toast.LENGTH_SHORT).show();
 
     }
@@ -76,7 +77,7 @@ public class ListaPostsActivity extends AppCompatActivity {
         return requestCode == CODIGO_REQUISICAO_ALTERA_NOTA;
     }
 
-    private void adiciona(PostModel post) {
+    private void adiciona(Post post) {
         //a implementar
     }
 
@@ -97,7 +98,7 @@ public class ListaPostsActivity extends AppCompatActivity {
         return requestCode == CODIGO_REQUISICAO_INSERE_NOTA;
     }
 
-    private void configuraRecyclerView(List<PostModel> todosPosts) {
+    private void configuraRecyclerView(List<Post> todosPosts) {
         RecyclerView listaPosts = findViewById(R.id.lista_posts_recyclerview);
         configuraAdapter(todosPosts, listaPosts);
         configuraItemTouchHelper(listaPosts);
@@ -111,29 +112,29 @@ public class ListaPostsActivity extends AppCompatActivity {
 //        itemTouchHelper.attachToRecyclerView(listaNotas);
     }
 
-    private void configuraAdapter(List<PostModel> todosPosts, RecyclerView listaPosts) {
+    private void configuraAdapter(List<Post> todosPosts, RecyclerView listaPosts) {
         adapter = new ListaPostsAdapter(this, todosPosts);
         listaPosts.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(PostModel post, int posicao) {
+            public void onItemClick(Post post, int posicao) {
                 vaiParaFormularioNotaActivityAltera(post, posicao);
             }
         });
     }
 
-    private void vaiParaFormularioNotaActivityAltera(PostModel post, int posicao) {
+    private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
         Toast.makeText(getApplicationContext(), "Teste botao", Toast.LENGTH_SHORT).show();
     }
 
 
 
-    public List<PostModel> pegaTodosPosts(){
+    public List<Post> pegaTodosPosts(){
 
-        List<PostModel> listPosts = new ArrayList<PostModel>();
+//        List<listPostsModel> listPosts = new ArrayList<PostModel>();
+//
+//        listPosts = new PostModel(getApplicationContext()).listar();
 
-        listPosts = new PostModel(getApplicationContext()).listar();
-
-        return listPosts;
+        return null;
     }
 }

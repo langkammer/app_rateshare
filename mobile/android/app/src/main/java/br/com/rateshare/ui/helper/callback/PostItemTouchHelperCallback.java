@@ -1,5 +1,6 @@
 package br.com.rateshare.ui.helper.callback;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
@@ -30,6 +31,7 @@ public class PostItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return true;
     }
 
+
     private void trocaNotas(int posicaoInicial, int posicaoFinal) {
 
     }
@@ -43,4 +45,6 @@ public class PostItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private void removeNota(int posicao) {
 
     }
+
+
 }

@@ -7,11 +7,13 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,11 +29,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import br.com.rateshare.R;
 import br.com.rateshare.dao.generic.DatabaseSettings;
 import br.com.rateshare.model.Categoria;
 import br.com.rateshare.model.CategoriaModel;
+import br.com.rateshare.model.Post;
 import br.com.rateshare.model.PostModel;
 import br.com.rateshare.model.User;
 import br.com.rateshare.ui.adapter.SpinCategoriaAdapter;
@@ -49,19 +53,16 @@ public class FormPostsAdapterHelper {
     private final EditText formItemTexteditDescript;
     private final Button form_item_btn_salvar;
     private final ImageButton formItemBtnCamera;
-
-    public static String databaseName = new DatabaseSettings().nameDatabase;
-    private SpinCategoriaAdapter adapter;
-    private Spinner mySpinner;
+    private final ProgressBar progressBar;
+    private SpinCategoriaAdapter spinnerAdapter;
     private DatabaseReference mDatabase;
 
+    private ArrayAdapter<Categoria> categoriaAdapter;
 
 
-    private PostModel postagem;
+    private Post postagem;
 
     private Context context;
-
-    private ArrayList<Categoria> listaCategorias;
 
     private String keyCategoria;
 
@@ -74,52 +75,53 @@ public class FormPostsAdapterHelper {
         formItemTexteditDescript  = view.findViewById(R.id.form_item_textedit_descript);
         form_item_btn_salvar      = view.findViewById(R.id.form_item_btn_salvar);
         formItemBtnCamera         = view.findViewById(R.id.form_item_btn_camera);
+        progressBar               = view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         this.context = view.getContext();
     }
 
 
 
-    public PostModel pegaPostagem() {
+    public Post pegaPostagem() {
         postagem.titulo = getFormItemEitTitulo().getText().toString();
         postagem.descricao = getFormItemTexteditDescript().getText().toString();
-        postagem.nota = Double.valueOf(getFormItemRate().getProgress());
-        postagem.id_categoria_externa = getFormItemOptionCateg().getSelectedItem().toString();
+//        postagem.stars = Double.valueOf(getFormItemRate().getProgress());
+//        postagem.id_categoria_externa = getFormItemOptionCateg().getSelectedItem().toString();
         postagem.data = (String) getFormItemImageview().getTag();
         return postagem;
     }
 
-    public void preencheFormulario(PostModel postagem) {
-        getCategorias();
-        adapter = new SpinCategoriaAdapter(context,
-                R.layout.simple_item_spiner_categoria,
-                listaCategorias);
-        getFormItemOptionCateg().setAdapter(adapter);
+    public void preencheFormulario(Post post) {
 
+        postagem = post;
+        getCategorias();
 
 
     }
 
     public void getCategorias(){
 
-        DatabaseReference globalPostRef = mDatabase.child("categorias");
-
-        listaCategorias = new ArrayList<Categoria>();
-
         // Database listener
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mDatabase.child("categorias").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                listaCategorias = (ArrayList<Categoria>) dataSnapshot.getValue();
-                //notifyDataSetChanged();
-                listaCategorias.clear();
+                final List<Categoria> listaCategorias = new ArrayList<Categoria>();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Categoria a = postSnapshot.getValue(Categoria.class);
                     listaCategorias.add(a);
                 }
 
+//                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,  R.layout.simple_item_spiner_categoria, listaCategorias);
+//                arrayAdapter.setDropDownViewResource(R.layout.simple_item_spiner_categoria);
+//                spinner.setAdapter(skularAdapter);
+
+                spinnerAdapter = new SpinCategoriaAdapter(context,    R.layout.simple_item_spiner_categoria,        listaCategorias );
+                spinnerAdapter.setDropDownViewResource( R.layout.simple_item_spiner_categoria);
+                formItemOptionCateg.setAdapter(spinnerAdapter);
+                formItemOptionCateg.setSelection(0);
             }
 
             @Override
@@ -166,6 +168,7 @@ public class FormPostsAdapterHelper {
         return form_item_btn_salvar;
     }
 
+    public ProgressBar getProgressBar(){ return progressBar;}
 
     public HashMap<String,String> validateFields(){
         HashMap<String,String>  setResult = new HashMap<String,String> ();

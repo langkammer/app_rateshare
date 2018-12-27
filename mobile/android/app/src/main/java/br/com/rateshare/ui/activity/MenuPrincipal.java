@@ -36,6 +36,7 @@ import java.util.List;
 
 import br.com.rateshare.R;
 import br.com.rateshare.model.Categoria;
+import br.com.rateshare.model.Post;
 import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.ListaPostsAdapter;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
@@ -326,7 +327,7 @@ public class MenuPrincipal extends AppCompatActivity
         return requestCode == CODIGO_REQUISICAO_INSERE_NOTA;
     }
 
-    private void configuraRecyclerView(List<PostModel> todosPosts) {
+    private void configuraRecyclerView(List<Post> todosPosts) {
         RecyclerView listaPosts = findViewById(R.id.lista_posts_recyclerview);
         configuraAdapter(todosPosts, listaPosts);
         configuraItemTouchHelper(listaPosts);
@@ -340,18 +341,18 @@ public class MenuPrincipal extends AppCompatActivity
 //        itemTouchHelper.attachToRecyclerView(listaNotas);
     }
 
-    private void configuraAdapter(List<PostModel> todosPosts, RecyclerView listaPosts) {
+    private void configuraAdapter(List<Post> todosPosts, RecyclerView listaPosts) {
         adapter = new ListaPostsAdapter(this, todosPosts);
         listaPosts.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(PostModel post, int posicao) {
+            public void onItemClick(Post post, int posicao) {
                 vaiParaFormularioNotaActivityAltera(post, posicao);
             }
         });
     }
 
-    private void vaiParaFormularioNotaActivityAltera(PostModel post, int posicao) {
+    private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
         Toast.makeText(getApplicationContext(), "Teste botao", Toast.LENGTH_SHORT).show();
     }
 

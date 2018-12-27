@@ -17,24 +17,22 @@ public class Post {
 
     public  Integer  numAvaliacoes;
 
-    public  String  pathFoto;
+    public  String  pathFotoAndroid;
 
     public  Boolean aprovado;
 
     public Map<String, Integer> stars = new HashMap<>();
 
+    private String key;
 
-//    public Map<String, Object> toMap() {
-//        HashMap<String, Object> result = new HashMap<>();
-//        result.put("uid", uid);
-//        result.put("author", author);
-//        result.put("title", title);
-//        result.put("body", descricao);
-//        result.put("starCount", starCount);
-//        result.put("stars", stars);
-//
-//        return result;
-//    }
+    public String getKey(){
+        return key;
+    }
+
+    public void setKey(String key){
+        this.key = key;
+    }
+
 
 
 }

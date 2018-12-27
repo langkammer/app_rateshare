@@ -15,16 +15,17 @@ import java.io.File;
 import java.util.List;
 
 import br.com.rateshare.R;
+import br.com.rateshare.model.Post;
 import br.com.rateshare.model.PostModel;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
 
 public class ListaMeusPostsAdapter extends RecyclerView.Adapter<ListaMeusPostsAdapter.PostViewHolder>{
 
-    private final List<PostModel> posts;
+    private final List<Post> posts;
     private final Context context;
     private OnItemClickListener onItemClickListener;
 
-    public ListaMeusPostsAdapter(Context context, List<PostModel> posts) {
+    public ListaMeusPostsAdapter(Context context, List<Post> posts) {
         this.context = context;
         this.posts = posts;
     }
@@ -42,7 +43,7 @@ public class ListaMeusPostsAdapter extends RecyclerView.Adapter<ListaMeusPostsAd
 
     @Override
     public void onBindViewHolder(ListaMeusPostsAdapter.PostViewHolder holder, int position) {
-        PostModel post = posts.get(position);
+        Post post = posts.get(position);
         holder.vincula(post);
     }
 
@@ -60,7 +61,7 @@ public class ListaMeusPostsAdapter extends RecyclerView.Adapter<ListaMeusPostsAd
         private final ImageView image;
         private final RatingBar ratingBar;
         private final ImageView imgLegendStatus;
-        private PostModel post;
+        private Post post;
 
         public PostViewHolder(View itemView) {
             super(itemView);
@@ -78,26 +79,26 @@ public class ListaMeusPostsAdapter extends RecyclerView.Adapter<ListaMeusPostsAd
             });
         }
 
-        public void vincula(PostModel post) {
+        public void vincula(Post post) {
             this.post = post;
             preencheCampo(post);
         }
 
-        private void preencheCampo(PostModel post) {
+        private void preencheCampo(Post post) {
             titulo.setText(post.titulo);
-            numAvaliacoes.setText(post.num_avaliacoes);
-            categoria.setText(post.nome_categoria);
-            ratingBar.setRating(post.nota.intValue());
-            File imgFile = new File(post.caminho_foto);
-            Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            if(post.flagEnvio == 0)
-                imgLegendStatus.setImageResource(R.drawable.ic_cached_black_24dp);
-            if(post.flagEnvio == 1)
-                imgLegendStatus.setImageResource(R.drawable.ic_check_black_24dp);
+//            numAvaliacoes.setText(post.num_avaliacoes);
+//            categoria.setText(post.nome_categoria);
+//            ratingBar.setRating(post.nota.intValue());
+//            File imgFile = new File(post.caminho_foto);
+//            Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+//            if(post.flagEnvio == 0)
+//                imgLegendStatus.setImageResource(R.drawable.ic_cached_black_24dp);
+//            if(post.flagEnvio == 1)
+//                imgLegendStatus.setImageResource(R.drawable.ic_check_black_24dp);
         }
     }
 
-    public void adiciona(PostModel post) {
+    public void adiciona(Post post) {
         posts.add(post);
         notifyDataSetChanged();
     }

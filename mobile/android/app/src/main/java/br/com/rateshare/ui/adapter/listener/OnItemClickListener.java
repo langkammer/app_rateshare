@@ -1,8 +1,8 @@
 package br.com.rateshare.ui.adapter.listener;
 
-import br.com.rateshare.model.PostModel;
+import br.com.rateshare.model.Post;
 
 public interface OnItemClickListener {
 
-    void onItemClick(PostModel post, int posicao);
+    void onItemClick(Post post, int posicao);
 }
