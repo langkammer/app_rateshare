@@ -2,6 +2,7 @@ package br.com.rateshare.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,12 +18,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -209,15 +213,16 @@ public class FormNovoPostagemFragment extends Fragment {
 
         postBean.numAvaliacoes = 1;
 
-        postBean.aprovado = false;
-        criaPostagemFirebase(postBean);
+        postBean.aprovado = true;
 
+        criaPostagemFirebase(postBean);
 
 
     }
 
-    public void uploadImage(){
+    public void uploadImage(final Post post){
         // cria referencias da imagem e faz upload
+        post.setKey(keyPost);
         StorageReference mountainsRef = mStorageRef.child("posts/" + keyPost);
         // Create a reference to 'images/mountains.jpg'
         StorageReference mountainImagesRef = mStorageRef.child("posts/" + keyPost);
@@ -244,8 +249,8 @@ public class FormNovoPostagemFragment extends Fragment {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
-                exibirProgress(false);
-                getActivity().onBackPressed();
+                publicaFacebook(post);
+
 
 
 
@@ -262,12 +267,40 @@ public class FormNovoPostagemFragment extends Fragment {
                     public void onComplete(DatabaseError databaseError,
                                            DatabaseReference databaseReference) {
                          keyPost = databaseReference.getKey();
-                         uploadImage();
+                         uploadImage(post);
                     }
                 });
 
         Toast.makeText(getContext(), "Post Salvo com Sucesso ! " , Toast.LENGTH_LONG).show();
     }
 
+
+    public void publicaFacebook(Post post){
+        StorageReference islandRef = FirebaseStorage.getInstance().getReference().child("posts/"+post.getKey());
+        final File localFile;
+        try {
+            localFile = File.createTempFile("image","jpg");
+
+            StorageReference iRef = FirebaseStorage.getInstance().getReference().child("posts/"+post.getKey());
+            iRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    SharePhoto photo = new SharePhoto.Builder()
+                            .setBitmap(bitmap)
+                            .build();
+                    SharePhotoContent content = new SharePhotoContent.Builder()
+                            .addPhoto(photo)
+                            .build();
+                    exibirProgress(false);
+//                    getActivity().onBackPressed();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 }

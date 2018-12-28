@@ -33,12 +33,14 @@ import java.util.Set;
 import br.com.rateshare.R;
 import br.com.rateshare.model.Post;
 import br.com.rateshare.ui.adapter.listener.OnItemClickListener;
+import br.com.rateshare.ui.adapter.listener.OnRateChangeListener;
 
 public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.PostViewHolder>{
 
     private final List<Post> posts;
     private final Context context;
     private OnItemClickListener onItemClickListener;
+    private OnRateChangeListener onRatingBarChange;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
@@ -49,6 +51,10 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setonRatingChanged(OnRateChangeListener onRatingBarChangeListener) {
+        this.onRatingBarChange =  onRatingBarChangeListener;
     }
 
     @Override
@@ -112,26 +118,14 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
                     onItemClickListener.onItemClick(post, getAdapterPosition());
                 }
             });
+
             ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    post.stars.put(mAuth.getUid(),Math.round(rating));
-                    mDatabase.child("posts").child(post.getKey()).setValue(post)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // Write was successful!
-                                    // ...
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Write failed
-                                    // ...
-                                }
-                            });
+                @Override
+                public void onRatingChanged(RatingBar ratingBr, float rating, boolean fromUser) {
+                    onRatingBarChange.onRateChange(post,getAdapterPosition(),ratingBar,ratingBar.getRating(),fromUser);
                 }
             });
+
         }
 
         public void vincula(Post post) {
@@ -180,6 +174,7 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
             titulo.setText(post.titulo);
             numAvaliacoes.setText(getAvaliacoes(post.stars));
             categoria.setText(post.categoria.nome);
+//            int nota  = post.stars.get("") / post.stars.size();
             ratingBar.setRating(getNota(post.stars));
             final File localFile = File.createTempFile("image","jpg");
             exibirProgress(true);

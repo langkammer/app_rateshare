@@ -40,6 +40,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <provider android:authorities="com.facebook.app.FacebookContentProvider333135537282994"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
 
     </application>
 
