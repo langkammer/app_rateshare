@@ -2,12 +2,23 @@ package br.com.rateshare.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,6 +137,7 @@ public class ListaPostsActivity extends AppCompatActivity {
     private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
         Toast.makeText(getApplicationContext(), "Teste botao", Toast.LENGTH_SHORT).show();
     }
+
 
 
 

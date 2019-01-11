@@ -1,0 +1,92 @@
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">RATE & SHARE</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li ui-sref-active="active">
+					<a ui-sref="funcionarios">
+						<i class="fa fa-id-card-o" aria-hidden="true"></i>
+						   HOME
+					</a>
+				</li>
+				<li ui-sref-active="active">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-graduation-cap" aria-hidden="true"></i>
+						   Administração
+						<span class="caret"></span>
+					</a>
+				</li>
+				<li ui-sref-active="active">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-user-md" aria-hidden="true"></i>
+						Atestados
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a ui-sref="cids">
+								<i class="fa fa-heartbeat" aria-hidden="true"></i>
+								   Cids
+							</a>
+						</li>
+						<li>
+							<a ui-sref="atestados">
+								<i class="fa fa-plus-square" aria-hidden="true"></i>
+								  Lancamento
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li  ui-sref-active="active">
+					<a ui-sref="mobiliza">
+						<i class="fa fa-book" aria-hidden="true"></i>
+						  Mobilizacao
+					</a>
+				</li>
+				<li ui-sref-active="active">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-pie-chart" aria-hidden="true"></i>
+						Relatorios
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a ui-sref="relatorio-atestados">
+								<i class="fa fa-heart" aria-hidden="true"></i>
+								Atestados
+							</a>
+							<a ui-sref="relatorio-atestados">
+								<i class="fa fa-certificate" aria-hidden="true"></i>
+								Treinanmentos
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acoes <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="#">
+								<i class="fa fa-sign-out" aria-hidden="true"></i>
+								   Sair
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>

@@ -2,6 +2,9 @@ package br.com.rateshare.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,6 +15,12 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.facebook.share.ShareApi;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +30,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,8 +204,69 @@ public class ListaPostsFrament extends Fragment {
 
     }
 
+    public void publicaFacebook(Post post) throws IOException{
+//        final File localFile = new File("@drawable/belo_horizonte_mg");
+
+        File localFile = new File("@drawable/belo_horizonte_mg");
+
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap image = BitmapFactory.decodeFile(localFile.getAbsolutePath(), bmOptions);
+
+        SharePhoto photo = new SharePhoto.Builder()
+
+                .setBitmap(image)
+
+                .setCaption("teste")
+
+                .setImageUrl(Uri.parse("http://www.google.com"))
+
+                .build();
+
+        SharePhotoContent content = new SharePhotoContent.Builder()
+
+                .addPhoto(photo)
+
+                .build();
+
+        ShareDialog.show(getActivity(), content);
+
+//        StorageReference islandRef = FirebaseStorage.getInstance().getReference().child("posts/"+post.getKey());
+//        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//                Bitmap image = BitmapFactory.decodeFile(localFile.getAbsolutePath(), bmOptions);
+//
+//                SharePhoto photo = new SharePhoto.Builder()
+//
+//                        .setBitmap(image)
+//
+//                        .setCaption("teste")
+//
+//                        .setImageUrl(Uri.parse("http://www.google.com"))
+//
+//                        .build();
+//
+//                SharePhotoContent content = new SharePhotoContent.Builder()
+//
+//                        .addPhoto(photo)
+//
+//                        .build();
+//
+//                ShareDialog.show(getActivity(), content);
+//
+//            }
+//        });
+
+    }
+
     private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
-        Toast.makeText(getContext(), "Teste botao", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Teste botao", Toast.LENGTH_SHORT).show();
+        try {
+            publicaFacebook(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

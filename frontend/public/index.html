@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rate & Share</title>
+     <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="bower_components/fontawesome/css/fontawesome.css" type="text/css"/>
+    <link rel="stylesheet" href="bower_components/angular-ui-notification/dist/angular-ui-notification.css" type="text/css"/>
+    <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css" type="text/css" />
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/blockUI/jquery.blockUI.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-ui-notification/dist/angular-ui-notification.js"></script>
+    <script src="bower_components/checklist-model/checklist-model.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+  </head>
+  <body>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/factory/principal.js"></script>
+    <script src="scripts/factory/authorization.js"></script>
+    <script src="scripts/controllers/Routes.js"></script>
+    <script src="scripts/controllers/Ini.js"></script>
+    <script src="scripts/controllers/HomeCtrl.js"></script>
+    <script src="scripts/controllers/GerenciaUsuario.js"></script>
+    <script src="scripts/controllers/GerenciaPosts.js"></script>
+    <script src="scripts/controllers/Login.js"></script>
+    <script src="scripts/directive/header.js"></script>
+    <script src="scripts/services/request.js"></script>
+    <script src="scripts/services/ServicesGtrak.js"></script>
+
+    <div ng-app="rateShareApp">
+        <div ui-view></div>
+    </div>
+  </body>
+</html>
