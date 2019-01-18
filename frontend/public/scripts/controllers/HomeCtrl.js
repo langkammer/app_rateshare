@@ -27,5 +27,7 @@ angular.module('rateShareApp')
       );
     }
 
-    ini();
+  
+
+    // ini();
 });

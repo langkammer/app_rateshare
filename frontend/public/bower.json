@@ -25,6 +25,6 @@
     "checklist-model": "^1.0.0",
     "blockUI": "blockui#*",
     "angularfire": "^2.3.0",
-    "angular-ui-router": "^1.0.20"
+    "angular-ui-router": "^0.4.2"
   }
 }

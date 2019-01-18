@@ -7,35 +7,40 @@
  * Controller of the sbAdminApp
  */
 angular.module('rateShareApp')
-  .controller('LoginCtrl', function($scope,$state,$firebaseAuth, $rootScope) {
+  .controller('LoginCtrl', function($scope,$state,$firebaseAuth, $firebaseObject,principal) {
     var auth = $firebaseAuth();
+    var ref = firebase.database().ref().child("users");
+    // var obj = new $firebaseObject(ref);
 
     $scope.userLogado = undefined;
 
-    $rootScope.$on('$stateChangeStart', function (event, toState) {      
-      if (toState.name === 'landingpage') {              
-        if (!isAuthenticated()) { // Check if user allowed to transition                  
-             event.preventDefault();   // Prevent migration to default state                  
-             $state.go('rateshare.login');           
-         }
-       }
-    });
-
     
     $scope.logarNormal = function(){
-          auth.$signInWithEmailAndPassword($scope.email,$scope.pass).then(function(firebaseUser) {
-            console.log("Signed in as:", firebaseUser.uid);
-            $state.go("rateshare.home");
-          }).catch(function(error) {
-            console.log("Authentication failed:", error);
-          });
+        // here, we fake authenticating and give a fake user
+       
+        
+      auth.$signInWithEmailAndPassword($scope.email,$scope.pass).then(function(firebaseUser) {
+        console.log("Signed in as:", firebaseUser.uid);
+        // console.log(obj);
+        var userRef = ref.child(firebaseUser.uid);
+        console.log(userRef);
+        // principal.authenticate({
+        //   name: firebaseUser,
+        //   roles: ['User']
+        // });
+        // definiRota();
+      }).catch(function(error) {
+        console.log("Authentication failed:", error);
+      });
+
+
     };
+
     $scope.deslogar = function(){
       auth.$signOut().then(function(sucess) {
-        // Sign-out successful.
-        $state.go("rateshare.home");
+        principal.authenticate(null);
+        $state.go("signin");
       }).catch(function(error) {
-        // An error happened.
         console.log("Authentication failed:", error);
       });
     };
@@ -43,12 +48,18 @@ angular.module('rateShareApp')
     function init(){
       $scope.userLogado = auth.$getAuth();
     }
-    function isAuthenticated(){
-      if(!$scope.userLogado)
-        return false;
-      else
-        return true;
+    
+
+
+    function getUserRelation(uid){
+
     }
+
+    function definiRota(){
+      if ($scope.returnToState) $state.go($scope.returnToState.name, $scope.returnToStateParams);
+      else $state.go('home');
+    }
+
     init()
     console.log("login ctrl...")
 

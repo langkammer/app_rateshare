@@ -3,5 +3,43 @@
         <!-- Navigation -->
         <header></header>
         <div ui-view></div>
-
+<!--
+    Modal Login
+-->
+<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginM">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLoginM">Login</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="card card-container">
+                                <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+                                <span id="reauth-email" class="reauth-email"></span>
+                                <p>Email</p>
+                                <input 
+                                type="email" 
+                                id="inputEmail" 
+                                class="form-control" 
+                                placeholder="Email address"
+                                ng-model="email"
+                                required autofocus>
+                                <p>Senha</p>
+                                <input 
+                                type="password" 
+                                id="inputPassword" 
+                                class="form-control" 
+                                placeholder="Password" 
+                                ng-model="pass"
+                                required>
+                                <p></p>
+                </div>
+                <div class="modal-footer">
+                        <button class="btn btn-lg btn-primary btn-block btn-signin" ng-click="logarNormal()">Logar</button>
+                </div>
+            </div>
+        </div>
+      </div>
 </div>
