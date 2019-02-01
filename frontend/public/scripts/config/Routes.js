@@ -70,7 +70,6 @@ angular.module('rateShareApp').config(['$stateProvider','$urlRouterProvider','No
           parent: 'rateshare',
           url: '/ver-postagem?key',
           data: {
-            roles: ['User'],
             meta: {
               'title': 'Ver Post',
               'og:image': 'http://www.yourdomain.com/img/facebookimage.jpg',
