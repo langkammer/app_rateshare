@@ -24,11 +24,11 @@ angular.module('rateShareApp')
         // console.log(obj);
         var userRef = ref.child(firebaseUser.uid);
         console.log(userRef);
-        // principal.authenticate({
-        //   name: firebaseUser,
-        //   roles: ['User']
-        // });
-        // definiRota();
+        principal.authenticate({
+          name: firebaseUser,
+          roles: ['User']
+        });
+        definiRota();
       }).catch(function(error) {
         console.log("Authentication failed:", error);
       });

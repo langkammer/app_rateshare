@@ -1,15 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="rateShareApp">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rate & Share</title>
+    <title ng-bind="ngMeta.title"></title>
+    <meta name="author" content="{{ngMeta['author']}}" />
+    <meta name="description" content="{{ngMeta.description}}" />
+
+    <!-- Facebook metatags -->
+    <meta property="og:title"         content="{{ngMeta['og:title']}}" />
+    <meta property="og:image"         content="{{ngMeta['og:image']}}" />
+    <meta property="og:url"           content="{{ngMeta['og:url']}}" />
+    <meta property="og:description"   content="{{ngMeta['og:description']}}" />
+    <meta property="og:type"          content="{{ngMeta['og:type']}}" />
+    <meta property="og:locale"        content="{{ngMeta['og:locale']}}" />
+    
      <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="bower_components/fontawesome/css/fontawesome.css" type="text/css"/>
     <link rel="stylesheet" href="bower_components/angular-ui-notification/dist/angular-ui-notification.css" type="text/css"/>
     <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css" type="text/css" />
+    <link rel="stylesheet" href="assets/custom.css" type="text/css" />
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -24,11 +36,25 @@
     <script src="bower_components/checklist-model/checklist-model.js"></script>
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+    <script src="bower_components/ngMeta/dist/ngMeta.min.js"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-4447442076400719",
+        enable_page_level_ads: true
+      });
+    </script>
   </head>
   <body>
+    </script>   
     <script src="scripts/app.js"></script>
+    <script src="scripts/services/request.js"></script>
     <script src="scripts/factory/Principal.js"></script>
     <script src="scripts/factory/Authorization.js"></script>
+    <script src="scripts/factory/PostsFactory.js"></script>
+    <script src="scripts/services/StorageService.js"></script>
+    <script src="scripts/services/GenericServices.js"></script>
+    <script src="scripts/factory/UserFactory.js"></script>
     <script src="scripts/config/Routes.js"></script>
     <script src="scripts/controllers/Ini.js"></script>
     <script src="scripts/controllers/HomeCtrl.js"></script>
@@ -36,11 +62,14 @@
     <script src="scripts/controllers/GerenciaPosts.js"></script>
     <script src="scripts/controllers/Login.js"></script>
     <script src="scripts/controllers/AdminCtrl.js"></script>
+    <script src="scripts/controllers/PostCtrl.js"></script>
 
 
     <script src="scripts/directive/header.js"></script>
     <script src="scripts/services/request.js"></script>
-    <div ng-app="rateShareApp">
+    <script src="scripts/directive/ads.js"></script>
+
+    <div >
         <div ui-view></div>
     </div>
   </body>

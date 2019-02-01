@@ -1,0 +1,37 @@
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  // Usage as a mixin
+  .element {
+    .center-block();
+  }
+  .container-post {
+    position: relative; 
+    max-width: 500px; /* Maximum width */
+    margin: 0 auto; /* Center it */
+  }
+  
+  .container-post .content {
+    position: absolute; /* Position the background text */
+    bottom: 0; /* At the bottom. Use top:0 to append it to the top */
+    background: rgb(0, 0, 0); /* Fallback color */
+    background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+    color: #f1f1f1; /* Grey text */
+    width: 100%; /* Full width */
+    padding: 20px; /* Some padding */
+  }
+  .container-post .title-content {
+    position: absolute; /* Position the background text */
+    top: 0; /* At the bottom. Use top:0 to append it to the top */
+    background: rgb(0, 0, 0); /* Fallback color */
+    background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+    color: #f1f1f1; /* Grey text */
+    width: 100%; /* Full width */
+    padding: 20px; /* Some padding */
+  }
+  .color-star{
+    color: #FFFF00; /* Grey text */
+  }

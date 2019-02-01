@@ -19,7 +19,8 @@ firebase.initializeApp(configFirebase);
 angular.module('rateShareApp', [
     'ui.router',
     'ui.bootstrap',
-	  'ui-notification',
+    'ui-notification',
     'checklist-model',
-    'firebase'
-  ]);
+    'firebase',
+    'ngMeta'
+]);

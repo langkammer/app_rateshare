@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+        <div class="container-post">
+            <img src="{{urlImg}}" class="center-block" style="width:100%;">
+            <div class="title-content">
+                <h3>{{post.titulo}} <span class="label label-default pull-right">{{post.categoria.nome}}</span></h3>
+            </div>
+            <div class="content">
+              <div class="col-md-12">
+                <h1 class="center-block">
+                  <span uib-rating class="color-star" ng-model="rate" max="5" read-only="true" aria-labelledby="default-rating"></span>
+                </h1>
+                <p>Numero de Avaliações {{post.numAvaliacoes}} </p>
+        
+                <h4>Descrição</h4>
+                {{post.descricao}}
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+          <p>Data Postagem  : {{post.data}}</p>
+          <p>Key  Postagem  : {{post.key}}</p>
+          <table class="table">
+              <thead>
+                 <tr>
+                      <th>Usuario</th>
+                      <th>Nota</th>
+                 </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="u in usuariosRating" >
+                      <td>{{ u.user.key }}</td>
+                      <td>{{ u.nota }}</td>
+
+              </tr>
+              
+              </tbody>
+
+              
+        </table>
+        <button type="button" class="btn btn-info" ng-click="compartilhar(p)">Compartilhar</button>
+
+    </div>
+  </div>
+</div>

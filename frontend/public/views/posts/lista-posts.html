@@ -1,0 +1,29 @@
+<div class="container">
+        <h1>Gerenciar Postagens</h1>
+        <table class="table">
+                <thead>
+                   <tr>
+                        <th>Categoria</th>
+                        <th>Titulo Post</th>
+                        <th>Numero Avaliacoes</th>
+                        <th>Data Postagem</th>
+                        <th></th>
+                   </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="p in posts" >
+                        <td ng-class="status(p.aprovado)">{{ p.categoria.nome }}</td>
+                        <td ng-class="status(p.aprovado)">{{ p.titulo }}</td>
+                        <td ng-class="status(p.aprovado)">{{ p.numAvaliacoes }}</td>
+                        <td ng-class="status(p.aprovado)">{{ p.data }}</td>
+                        <td>
+                          <button type="button" class="btn btn-info" ng-click="verPostagem(p)">Acessar Postagem</button>
+                          <button type="button" class="btn btn-success" ng-click="aprovar(p)">Aprovar</button>
+                          <button type="button" class="btn btn-danger" ng-click="reprovar(p)">Reprovar</button>
+
+                        </td>
+                </tr>
+                
+                </tbody>
+        </table>
+</div><!-- /container -->
