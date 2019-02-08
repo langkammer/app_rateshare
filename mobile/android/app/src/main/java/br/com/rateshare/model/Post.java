@@ -9,6 +9,8 @@ public class Post {
 
     public  String uid;
 
+    public  String userKey;
+
     public  Categoria categoria;
 
     public  String descricao;

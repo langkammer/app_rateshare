@@ -49,7 +49,36 @@
         android:text="@string/deseja_receber_alertas_de_aprova_o"
         android:textColor="@color/backGround"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_cfg_email" />
+
+    <Button
+        android:id="@+id/form_salvar_config"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btn_ripple_cadastrar"
+        android:text="Salvar"
+        android:textColor="@color/colorBtn"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_cfg_label_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="nome"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/config_perfil_foto" />
 
@@ -68,7 +97,7 @@
 
         <RadioButton
             android:id="@+id/radio_sim"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/sim" />
@@ -81,87 +110,21 @@
             android:text="@string/n_o" />
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/text_cfg_vinc_social"
-        android:layout_width="wrap_content"
-        android:layout_height="21dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="@string/vinculos_com_rede_social"
-        android:textColor="@color/backGround"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radio_cfg_notific_aprova" />
-
-    <Button
-        android:id="@+id/btn_cfg_face"
+    <EditText
+        android:id="@+id/edittext_cfg_email"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/btn_facebook"
-        android:drawableLeft="@drawable/face"
-        android:gravity="left|center_vertical"
-        android:text="@string/vincular_facebook"
-        android:textColor="@color/edtBgWhite"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:text="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_cfg_vinc_social"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/text_cfg_label_nome" />
 
-    <Button
-        android:id="@+id/btn_cfg_twt"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/btn_twt"
-        android:drawableStart="@drawable/twticon"
-        android:drawableLeft="@drawable/twticon"
-        android:gravity="left|center_vertical"
-        android:text="@string/vincular_twiter"
-        android:textColor="@color/edtBgWhite"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cfg_face"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/btn_cfg_insta"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/btn_insta"
-        android:drawableStart="@drawable/insta"
-        android:drawableLeft="@drawable/insta"
-        android:gravity="left|center_vertical"
-        android:text="@string/vincular_instagram"
-        android:textColor="@color/edtBgWhite"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cfg_twt"
-        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>

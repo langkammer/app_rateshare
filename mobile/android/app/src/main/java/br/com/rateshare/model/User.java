@@ -10,11 +10,13 @@ public class User {
     public String email;
     public String pathFoto;
     public String data;
+    public boolean socialLogin;
+    public String tipoSocialLogin;
+    public boolean recebeNoti;
     public boolean ativo;
     public boolean adm;
 
     public User() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
     public User(String uid,
@@ -23,7 +25,10 @@ public class User {
                 String pathFoto,
                 String data,
                 boolean ativo,
-                boolean adm) {
+                boolean adm,
+                boolean recebeNoti,
+                boolean socialLogin,
+                String tipoSocialLogin) {
         this.uid = uid;
         this.nome = nome;
         this.email = email;
@@ -31,6 +36,10 @@ public class User {
         this.data = data;
         this.ativo = ativo;
         this.adm = adm;
+        this.recebeNoti = recebeNoti;
+        this.socialLogin = socialLogin;
+        this.tipoSocialLogin = tipoSocialLogin;
+
     }
 
     public User criaPerfilUsuario(FirebaseUser user,String nome){
@@ -40,6 +49,9 @@ public class User {
         this.data = DataUtil.data;
         this.uid = user.getUid();
         this.nome = nome;
+        this.recebeNoti = true;
+        this.socialLogin = true;
+        this.tipoSocialLogin = user.getProviderData().toString();
         return this;
     }
 

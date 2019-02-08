@@ -2,8 +2,6 @@ package br.com.rateshare.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
-import com.facebook.share.ShareApi;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,11 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +57,8 @@ public class ListaPostsFrament extends Fragment {
     private FirebaseAuth mAuth;
     private ListaPostsAdapter recyclerViewAdapter;
     private RecyclerView recyclerView;
-
-
+    private ShareDialog shareDialog;
+    private CallbackManager callbackManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +76,30 @@ public class ListaPostsFrament extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.lista_posts_recyclerview);
 
         mAuth = FirebaseAuth.getInstance();
+
+        callbackManager = CallbackManager.Factory.create();
+
+        shareDialog = new ShareDialog(this);
+
+        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                System.out.println("SUCESSO !!!!");
+            }
+
+            @Override
+            public void onCancel() {
+                System.out.println("CANCELOU !!!!");
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                System.out.println("ERROOOOOU !!!!");
+
+            }
+        });
 
         pegaTodosPosts();
 
@@ -149,6 +170,7 @@ public class ListaPostsFrament extends Fragment {
         listPosts.clear();
         for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
             Post a = singleSnapshot.getValue(Post.class);
+            a.setKey(singleSnapshot.getKey());
             listPosts.add(a);
         }
         configuraRecyclerView(listPosts);
@@ -167,7 +189,7 @@ public class ListaPostsFrament extends Fragment {
         });
         adapter.setonRatingChanged(new OnRateChangeListener() {
             @Override
-            public void onRateChange(Post post, int posicao, RatingBar ratingBar, float rating, boolean fromUser) {
+            public void onRateChange(final Post post, int posicao, RatingBar ratingBar, final float rating, boolean fromUser) {
                     if(fromUser){
                         System.out.println("rate o change");
                         if(post.stars.get(mAuth.getUid())!=null){
@@ -179,7 +201,11 @@ public class ListaPostsFrament extends Fragment {
                                             public void onSuccess(Void aVoid) {
                                                 // Write was successful!
                                                 System.out.println("sucesso on change rate");
-                                                // ...
+                                                try {
+                                                    publicaFacebook(post,Math.round(rating));
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -204,71 +230,49 @@ public class ListaPostsFrament extends Fragment {
 
     }
 
-    public void publicaFacebook(Post post) throws IOException{
-//        final File localFile = new File("@drawable/belo_horizonte_mg");
+    public String getStarString(int numStar){
+        String starString = "";
+        if(numStar == 1)
+            starString =  "★";
+        if(numStar == 2)
+            starString =  "★★";
+        if(numStar == 3)
+            starString =  "★★★";
+        if(numStar == 4)
+            starString =  "★★★★";
+        if(numStar == 5)
+            starString =  "★★★★★";
 
-        File localFile = new File("@drawable/belo_horizonte_mg");
+        return  starString;
+    }
 
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        Bitmap image = BitmapFactory.decodeFile(localFile.getAbsolutePath(), bmOptions);
-
-        SharePhoto photo = new SharePhoto.Builder()
-
-                .setBitmap(image)
-
-                .setCaption("teste")
-
-                .setImageUrl(Uri.parse("http://www.google.com"))
-
+    public void publicaFacebook(Post post,Integer rate) throws IOException{
+        ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
+                .setShareHashtag(new ShareHashtag.Builder().setHashtag("#rateshare").build())
+                .setQuote(
+                        "  EU avaliei um(a)     \n "                    +
+                                post.categoria.nome             + " Com nome : " + post.titulo +
+                                "  E a minha avaliação foi:   \n "                    +
+                                post.descricao                  +
+                                "  e Dei a quantidade estrelas :   \n "                    +
+                                getStarString(rate)             +
+                                "       \n "                    +
+                                " !!!! Avalie você tbm! com o APP RATESHARE !!!! "
+                )
+                .setContentUrl(Uri.parse("https://rateshareteste.firebaseapp.com/ver-postagem/" + post.getKey()))
                 .build();
-
-        SharePhotoContent content = new SharePhotoContent.Builder()
-
-                .addPhoto(photo)
-
-                .build();
-
-        ShareDialog.show(getActivity(), content);
-
-//        StorageReference islandRef = FirebaseStorage.getInstance().getReference().child("posts/"+post.getKey());
-//        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-//                Bitmap image = BitmapFactory.decodeFile(localFile.getAbsolutePath(), bmOptions);
-//
-//                SharePhoto photo = new SharePhoto.Builder()
-//
-//                        .setBitmap(image)
-//
-//                        .setCaption("teste")
-//
-//                        .setImageUrl(Uri.parse("http://www.google.com"))
-//
-//                        .build();
-//
-//                SharePhotoContent content = new SharePhotoContent.Builder()
-//
-//                        .addPhoto(photo)
-//
-//                        .build();
-//
-//                ShareDialog.show(getActivity(), content);
-//
-//            }
-//        });
+        shareDialog.show(shareLinkContent);
 
     }
 
     private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
 //        Toast.makeText(getContext(), "Teste botao", Toast.LENGTH_SHORT).show();
-        try {
-            publicaFacebook(post);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //            publicaFacebook(post);
+        goToPost(post);
     }
 
+    private void goToPost(Post post) {
+    }
 
 
     public void pegaTodosPosts(){

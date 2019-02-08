@@ -18,8 +18,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.ShareMediaContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,6 +76,9 @@ public class FormNovoPostagemFragment extends Fragment {
 
     private String keyPost = "";
 
+    private ShareDialog shareDialog;
+
+    private CallbackManager callbackManager;
 
 
     @Override
@@ -99,6 +111,29 @@ public class FormNovoPostagemFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         helper = new FormPostsAdapterHelper(view);
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
+
+        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                System.out.println("SUCESSO !!!!");
+            }
+
+            @Override
+            public void onCancel() {
+                System.out.println("CANCELOU !!!!");
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                System.out.println("ERROOOOOU !!!!");
+
+            }
+        });
+
         setHelper(helper);
         Bundle parametros = getArguments();
         if (parametros != null) {
@@ -195,6 +230,8 @@ public class FormNovoPostagemFragment extends Fragment {
 
         postBean.data = DataUtil.data;
 
+        postBean.userKey = mAuth.getCurrentUser().getUid();
+
         Categoria categoriaSelecionada = (Categoria) helper.getFormItemOptionCateg().getSelectedItem();
 
         postBean.categoria = categoriaSelecionada;
@@ -275,31 +312,40 @@ public class FormNovoPostagemFragment extends Fragment {
     }
 
 
+    public String getStarString(){
+        String starString = "";
+        if(helper.getFormItemRate().getProgress() == 1)
+            starString =  "★";
+        if(helper.getFormItemRate().getProgress() == 2)
+            starString =  "★★";
+        if(helper.getFormItemRate().getProgress() == 3)
+            starString =  "★★★";
+        if(helper.getFormItemRate().getProgress() == 4)
+            starString =  "★★★★";
+        if(helper.getFormItemRate().getProgress() == 5)
+            starString =  "★★★★★";
+
+        return  starString;
+    }
+
     public void publicaFacebook(Post post){
-        StorageReference islandRef = FirebaseStorage.getInstance().getReference().child("posts/"+post.getKey());
-        final File localFile;
-        try {
-            localFile = File.createTempFile("image","jpg");
-
-            StorageReference iRef = FirebaseStorage.getInstance().getReference().child("posts/"+post.getKey());
-            iRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    SharePhoto photo = new SharePhoto.Builder()
-                            .setBitmap(bitmap)
-                            .build();
-                    SharePhotoContent content = new SharePhotoContent.Builder()
-                            .addPhoto(photo)
-                            .build();
-                    exibirProgress(false);
-//                    getActivity().onBackPressed();
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
+                .setShareHashtag(new ShareHashtag.Builder().setHashtag("#rateshare").build())
+                .setQuote(
+                        "  EU avaliei um(a)     \n "                    +
+                        post.categoria.nome             + " Com nome : " + post.titulo +
+                        "  E a minha avaliação foi:   \n "                    +
+                        post.descricao                  +
+                        "  e Dei a quantidade estrelas :   \n "                    +
+                        getStarString()             +
+                        "       \n "                    +
+                        " !!!! Avalie você tbm! com o APP RATESHARE !!!! "
+                )
+                .setContentUrl(Uri.parse("https://rateshareteste.firebaseapp.com/ver-postagem/" + post.getKey()))
+                .build();
+        shareDialog.show(shareLinkContent);
+        exibirProgress(false);
+        getActivity().onBackPressed();
 
     }
 

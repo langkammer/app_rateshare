@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.facebook.login.widget.LoginButton;
+
 import br.com.rateshare.R;
 
 /**
@@ -15,7 +17,7 @@ import br.com.rateshare.R;
 public class LoginHelper {
 
     private final Button btnLoginNormal;
-    private final Button btnLoginfacebook;
+    private final LoginButton btnLoginfaceboo;
     private final Button btnLoginTwitter;
     private final Button btnEsqueciSenha;
     private final Button btnCadastrar;
@@ -25,12 +27,14 @@ public class LoginHelper {
 
     public LoginHelper(Activity act) {
         btnLoginNormal         = act.findViewById(R.id.btnLogin);
-        btnLoginfacebook       = act.findViewById(R.id.btnFacebookLogin);
+        btnLoginfaceboo       = act.findViewById(R.id.btnFacebookLogin);
         btnLoginTwitter        = act.findViewById(R.id.btnTwtLogin);
         btnEsqueciSenha        = act.findViewById(R.id.esquciSenha);
         btnCadastrar           = act.findViewById(R.id.btnCadastrar);
         ediEmail               = act.findViewById(R.id.email);
         editPass               = act.findViewById(R.id.senha);
+        btnLoginfaceboo.setReadPermissions("email", "public_profile");
+
     }
 
 
@@ -38,8 +42,8 @@ public class LoginHelper {
         return btnLoginNormal;
     }
 
-    public Button getBtnLoginfacebook() {
-        return btnLoginfacebook;
+    public LoginButton getBtnLoginfacebook() {
+        return btnLoginfaceboo;
     }
 
     public Button getBtnLoginTwitter() {

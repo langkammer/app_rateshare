@@ -12,6 +12,12 @@
         
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
+                <li>
+                  <a href="#">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                      Ver Posts
+                  </a>
+                </li>
                 <li ui-sref-active="active">
                   <a class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-pie-chart" aria-hidden="true"></i>
@@ -21,7 +27,7 @@
                   <ul class="dropdown-menu">
                     <li>
                       <a ui-sref="gerencia-post">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                         Gerencia.Posts
                       </a>
                       <a ui-sref="gerencia-post">
@@ -29,13 +35,14 @@
                         Gerencia.Users
                       </a>
                       <a ui-sref="gerencia-post">
-                          <i class="fa fa-certificate" aria-hidden="true"></i>
-                          Teste
-                        </a>
+                        <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                        Cad.Categorias
+                      </a>
                     </li>
                   </ul>
                 </li>
               </ul>
+              
               <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                   <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acoes <span class="caret"></span></a>

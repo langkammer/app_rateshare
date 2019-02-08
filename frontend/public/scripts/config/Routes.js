@@ -1,7 +1,10 @@
-angular.module('rateShareApp').config(['$stateProvider','$urlRouterProvider','NotificationProvider','ngMetaProvider',
-    function ($stateProvider,$urlRouterProvider,NotificationProvider,ngMetaProvider) {
+angular.module('rateShareApp').config(['$locationProvider','$stateProvider','$urlRouterProvider','NotificationProvider','ngMetaProvider',
+    function ($locationProvider,$stateProvider,$urlRouterProvider,NotificationProvider,ngMetaProvider) {
          // Initialize the Firebase SDK
-       
+        
+        $locationProvider.html5Mode(true);
+        $locationProvider.hashPrefix('');
+        
         console.log("app ini ...");
 
         NotificationProvider.setOptions({

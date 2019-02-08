@@ -11,14 +11,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import br.com.rateshare.R;
 import br.com.rateshare.helper.LoginHelper;
+import br.com.rateshare.model.User;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -27,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     private LoginHelper helper;
     private FirebaseAuth firebaseAuth;
     private Intent intent;
+    private DatabaseReference mDatabase;
+
+    private CallbackManager mCallbackManager;
 
     public void setHelper(LoginHelper helper) {
         this.helper = helper;
@@ -37,7 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firebaseAuth = FirebaseAuth.getInstance();
-
+        mCallbackManager = CallbackManager.Factory.create();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         setContentView(R.layout.tela_login);
         LoginHelper helper = new LoginHelper(this);
         setHelper(helper);
@@ -55,6 +68,31 @@ public class LoginActivity extends AppCompatActivity {
                 logarNormal();
             }
         });
+
+        helper.getBtnLoginfacebook().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                User usuarioCriado = new User();
+                criaCollectionUsuario(usuarioCriado.criaPerfilUsuario(user,user.getDisplayName()));
+
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+                // ...
+            }
+
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "facebook:onError", error);
+                // ...
+            }
+        });
+
 
     }
 
@@ -111,5 +149,31 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+
+
+    public Boolean criaCollectionUsuario(User user){
+        boolean retorno = false;
+        mDatabase.child("users").child(user.uid).setValue(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Write was successful!
+                        // ...
+                        Log.d(TAG, "FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
+                        vaiParaMenu();
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "NÃO FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
+
+                    }
+                });
+        return retorno;
     }
 }
