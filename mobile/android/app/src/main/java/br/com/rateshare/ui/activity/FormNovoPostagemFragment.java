@@ -2,8 +2,9 @@ package br.com.rateshare.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,12 +23,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.share.Sharer;
-import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.ShareMediaContent;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,8 +32,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -52,6 +49,9 @@ import br.com.rateshare.model.Categoria;
 import br.com.rateshare.model.Post;
 import br.com.rateshare.util.DataUtil;
 import br.com.rateshare.util.FotoUtil;
+
+import static br.com.rateshare.util.FotoUtil.COMPRESS_QUALIDADE_MEDIA;
+import static br.com.rateshare.util.UtilGenerate.gerarChave;
 
 public class FormNovoPostagemFragment extends Fragment {
 
@@ -80,6 +80,8 @@ public class FormNovoPostagemFragment extends Fragment {
 
     private CallbackManager callbackManager;
 
+    private ExifInterface exifObject;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,6 +98,12 @@ public class FormNovoPostagemFragment extends Fragment {
 
     public void putPathFoto(String path) {
         this.pathFoto = path;
+        try {
+            this.exifObject = new ExifInterface(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void setHelper(FormPostsAdapterHelper helper) {
@@ -104,6 +112,10 @@ public class FormNovoPostagemFragment extends Fragment {
     }
 
     private void exibirProgress(boolean exibir) {
+        helper.getProgressBar().setVisibility(exibir ? View.VISIBLE : View.GONE);
+    }
+
+    private void exibirProgress2(boolean exibir) {
         helper.getProgressBar().setVisibility(exibir ? View.VISIBLE : View.GONE);
     }
 
@@ -139,7 +151,7 @@ public class FormNovoPostagemFragment extends Fragment {
         if (parametros != null) {
             String pathFile = (String) parametros.getSerializable("pathFile");
             putPathFoto(pathFile);
-            helper.preencheFormulario(new Post());
+            helper.preencheFormulario(new Post(),true);
             helper.carregaImagem(this.pathFoto);
 
         }
@@ -180,7 +192,10 @@ public class FormNovoPostagemFragment extends Fragment {
 
 
 
+
     }
+
+
 
     private void abreCamera() {
 
@@ -199,9 +214,56 @@ public class FormNovoPostagemFragment extends Fragment {
                 Uri photoURI = FileProvider.getUriForFile(getContext(),
                         "br.com.rateshare.fileprovider",
                         photoFile);
+
+
+
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 getActivity().startActivityForResult(takePictureIntent, FotoUtil.CODIGO_CAMERA);
             }
+        }
+    }
+
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -268,9 +330,21 @@ public class FormNovoPostagemFragment extends Fragment {
         mountainsRef.getName().equals(mountainImagesRef.getName());    // true
         mountainsRef.getPath().equals(mountainImagesRef.getPath());    // false
 
+
         Bitmap bitmap = ((BitmapDrawable) helper.getFormItemImageview().getDrawable()).getBitmap();
+
+        int orientation = exifObject.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+        Bitmap imageRotate = rotateBitmap(bitmap,orientation);
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+
+        imageRotate.compress(Bitmap.CompressFormat.JPEG, COMPRESS_QUALIDADE_MEDIA, baos);
+
+
+        helper.getProgressBar2().setVisibility(View.VISIBLE);
+
         byte[] data = baos.toByteArray();
         exibirProgress(true);
         UploadTask uploadTask = mountainsRef.putBytes(data);
@@ -281,16 +355,21 @@ public class FormNovoPostagemFragment extends Fragment {
                 exibirProgress(false);
 
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        })
+        .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = 100.0 * (taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                System.out.println("Upload is " + progress + "% done");
+                int currentprogress = (int) progress;
+                helper.getProgressBar2().setProgress(currentprogress);
+            }
+        })
+        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
                 publicaFacebook(post);
-
-
-
-
             }
         });
     }
@@ -298,7 +377,7 @@ public class FormNovoPostagemFragment extends Fragment {
     public void criaPostagemFirebase(final Post post){
 
         mDatabase.child("posts")
-                .push()
+                .child(gerarChave())
                 .setValue(post, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError,
@@ -327,24 +406,28 @@ public class FormNovoPostagemFragment extends Fragment {
 
         return  starString;
     }
+    private String gerarCaptolPostFacebook(Post post){
+        String retorno =  "  EU avaliei um(a)     \n "                    +
+                post.categoria.nome             + " Com nome : " + post.titulo +
+                "  E a minha avaliação foi:   \n "                    +
+                post.descricao                  +
+                "  e Dei a quantidade estrelas :   \n "                    +
+                getStarString()             +
+                "       \n "                    +
+                " !!!! Avalie você tbm! com o APP RATESHARE !!!! ";
+
+        return retorno;
+    }
 
     public void publicaFacebook(Post post){
         ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
                 .setShareHashtag(new ShareHashtag.Builder().setHashtag("#rateshare").build())
-                .setQuote(
-                        "  EU avaliei um(a)     \n "                    +
-                        post.categoria.nome             + " Com nome : " + post.titulo +
-                        "  E a minha avaliação foi:   \n "                    +
-                        post.descricao                  +
-                        "  e Dei a quantidade estrelas :   \n "                    +
-                        getStarString()             +
-                        "       \n "                    +
-                        " !!!! Avalie você tbm! com o APP RATESHARE !!!! "
-                )
-                .setContentUrl(Uri.parse("https://rateshareteste.firebaseapp.com/ver-postagem/" + post.getKey()))
+                .setQuote(gerarCaptolPostFacebook(post))
+                .setContentUrl(Uri.parse("https://rateshareteste.firebaseapp.com/postbyid/" + post.getKey()))
                 .build();
         shareDialog.show(shareLinkContent);
         exibirProgress(false);
+        helper.getProgressBar2().setVisibility(View.INVISIBLE);
         getActivity().onBackPressed();
 
     }

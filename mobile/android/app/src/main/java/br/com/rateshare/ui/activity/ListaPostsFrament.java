@@ -2,10 +2,13 @@ package br.com.rateshare.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +21,11 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -80,6 +86,9 @@ public class ListaPostsFrament extends Fragment {
         callbackManager = CallbackManager.Factory.create();
 
         shareDialog = new ShareDialog(this);
+
+        getActivity().setTitle(TITULO_APPBAR);
+
 
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
 
@@ -189,7 +198,7 @@ public class ListaPostsFrament extends Fragment {
         });
         adapter.setonRatingChanged(new OnRateChangeListener() {
             @Override
-            public void onRateChange(final Post post, int posicao, RatingBar ratingBar, final float rating, boolean fromUser) {
+            public void onRateChange(final Post post, int posicao, RatingBar ratingBar, final float rating, boolean fromUser,final Bitmap image) {
                     if(fromUser){
                         System.out.println("rate o change");
                         if(post.stars.get(mAuth.getUid())!=null){
@@ -202,7 +211,7 @@ public class ListaPostsFrament extends Fragment {
                                                 // Write was successful!
                                                 System.out.println("sucesso on change rate");
                                                 try {
-                                                    publicaFacebook(post,Math.round(rating));
+                                                    publicaFacebook(post,Math.round(rating),image);
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
@@ -246,23 +255,28 @@ public class ListaPostsFrament extends Fragment {
         return  starString;
     }
 
-    public void publicaFacebook(Post post,Integer rate) throws IOException{
+    public void publicaFacebook(Post post,Integer rate,Bitmap image) throws IOException{
         ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
                 .setShareHashtag(new ShareHashtag.Builder().setHashtag("#rateshare").build())
-                .setQuote(
-                        "  EU avaliei um(a)     \n "                    +
-                                post.categoria.nome             + " Com nome : " + post.titulo +
-                                "  E a minha avaliação foi:   \n "                    +
-                                post.descricao                  +
-                                "  e Dei a quantidade estrelas :   \n "                    +
-                                getStarString(rate)             +
-                                "       \n "                    +
-                                " !!!! Avalie você tbm! com o APP RATESHARE !!!! "
-                )
-                .setContentUrl(Uri.parse("https://rateshareteste.firebaseapp.com/ver-postagem/" + post.getKey()))
+                .setQuote(gerarCaptolPostFacebook(post,rate))
+                .setContentUrl(Uri.parse("https://rateshareteste.firebaseapp.com/postbyid/" + post.getKey()))
                 .build();
+
         shareDialog.show(shareLinkContent);
 
+    }
+
+    private String gerarCaptolPostFacebook(Post post,Integer rate){
+        String retorno =  "  EU avaliei um(a)     \n "                    +
+                post.categoria.nome             + " Com nome : " + post.titulo +
+                "  E a minha avaliação foi:   \n "                    +
+                post.descricao                  +
+                "  e Dei a quantidade estrelas :   \n "                    +
+                getStarString(rate)             +
+                "       \n "                    +
+                " !!!! Avalie você tbm! com o APP RATESHARE !!!! ";
+
+        return retorno;
     }
 
     private void vaiParaFormularioNotaActivityAltera(Post post, int posicao) {
@@ -272,6 +286,17 @@ public class ListaPostsFrament extends Fragment {
     }
 
     private void goToPost(Post post) {
+
+        FormVerPostagemFragment verPost = new FormVerPostagemFragment();
+        Bundle args = new Bundle();
+        args.putString("keyPost", post.getKey());
+        args.putBoolean("autor", false);
+        verPost.setArguments(args);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_posts, verPost);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 
@@ -294,4 +319,6 @@ public class ListaPostsFrament extends Fragment {
         });
 
     }
+
+
 }

@@ -2,6 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_meus_posts"
+    android:background="#f0f0f0"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.ListaPostsActivity">
@@ -25,7 +27,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_legend_check"
-        app:srcCompat="@drawable/ic_cached_black_24dp" />
+        app:srcCompat="@drawable/com_facebook_close" />
 
     <TextView
         android:id="@+id/text_legend_check"
@@ -36,7 +38,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Enviado"
+        android:text="Aprovado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/img_legend_check"
@@ -52,7 +54,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Pendente de Envio"
+        android:text="Nao Aprovado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/img_legend_pend"

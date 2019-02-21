@@ -9,13 +9,13 @@
             android:icon="@drawable/ic_star_half_black_24dp"
             android:title="Postagens" />
         <item
-            android:id="@+id/menu_item_ajustes"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Ajustes" />
-        <item
             android:id="@+id/menu_meus_posts"
             android:icon="@drawable/ic_message_black_24dp"
             android:title="Meus Posts" />
+        <item
+            android:id="@+id/menu_item_ajustes"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Ajustes" />
         <item
             android:id="@+id/menu_item_sair"
             android:icon="@drawable/ic_exit_to_app_black_24dp"

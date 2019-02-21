@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 
@@ -57,6 +58,10 @@ public class MenuPrincipal extends AppCompatActivity
     public ListaPostsAdapter adapter;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+
+    private  Toolbar toolbar;
+
+    private Intent intent;
 
 
     @Override
@@ -170,14 +175,16 @@ public class MenuPrincipal extends AppCompatActivity
 
     private void montaTelaInicial() {
         setContentView(R.layout.tela_menu_principal);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        this.toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(this.toolbar);
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, this.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -232,7 +239,6 @@ public class MenuPrincipal extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Intent intent;
 
         if(id == R.id.menu_item_ajustes){
             callFragmetSettings();
@@ -241,36 +247,29 @@ public class MenuPrincipal extends AppCompatActivity
             callFragmentPosts();
         }
         if(id == R.id.menu_meus_posts){
-            String[] array =  {"FILMES","BEBIDAS","LUGARES","COISAS"};
-
-            for(int i = 0; i < array.length; i ++){
-                Categoria categoria = new Categoria();
-                categoria.data = DataUtil.data;
-                categoria.nome = array[i];
-                mDatabase.child("categorias").push().setValue(categoria)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // Write was successful!
-                                // ...
-                                Log.d(TAG, "FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "NÃO FOI CIRADO NO FIREBASE INSTANCIA DO USUARIO");
-
-                            }
-                        });
-            }
-
-//            callFragmentsMeusPosts();
+            callFragmentsMeusPosts();
         }
         if(id == R.id.menu_item_sair){
-            mAuth.signOut();
-            intent = new Intent(getApplicationContext(),LoginActivity.class);
-            startActivity(intent);
+            if(mAuth.getCurrentUser().getProviders().get(0).equals("facebook.com")){
+                Bundle parametros = new Bundle();
+
+                parametros.putSerializable("facebook_deslogou", true);
+
+                mAuth.signOut();
+
+                this.intent = new Intent(getApplicationContext(),LoginActivity.class).putExtra("facebook_deslogou",true);
+
+                startActivity(this.intent);
+            }
+            else{
+                mAuth.signOut();
+
+                this.intent = new Intent(getApplicationContext(),LoginActivity.class);
+
+                startActivity(this.intent);
+            }
+
+
             this.finish();
 
         }

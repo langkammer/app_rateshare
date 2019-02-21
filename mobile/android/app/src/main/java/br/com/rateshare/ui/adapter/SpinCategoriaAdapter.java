@@ -70,4 +70,12 @@ public class SpinCategoriaAdapter extends ArrayAdapter<Categoria> {
 
     }
 
+
+    public int getPosicao(Categoria categoria){
+        for(Categoria cat : values){
+            if(cat.getKey().equals(categoria.getKey()))
+                return values.indexOf(cat);
+        }
+        return -1;
+    }
 }

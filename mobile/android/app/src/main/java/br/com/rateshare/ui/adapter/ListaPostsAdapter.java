@@ -100,6 +100,8 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
         private final ProgressBar progressBar;
         private Post post;
 
+        private Bitmap bitmapImg;
+
         public PostViewHolder(View itemView) {
             super(itemView);
             mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -122,7 +124,7 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
             ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBr, float rating, boolean fromUser) {
-                    onRatingBarChange.onRateChange(post,getAdapterPosition(),ratingBar,ratingBar.getRating(),fromUser);
+                    onRatingBarChange.onRateChange(post,getAdapterPosition(),ratingBar,ratingBar.getRating(),fromUser,bitmapImg);
                 }
             });
 
@@ -184,6 +186,7 @@ public class ListaPostsAdapter extends RecyclerView.Adapter<ListaPostsAdapter.Po
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                     image.setImageBitmap(bitmap);
+                    bitmapImg = bitmap;
                     exibirProgress(false);
 
                 }

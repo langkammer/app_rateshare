@@ -11,7 +11,11 @@ import java.util.Date;
 
 
 public class FotoUtil {
+    public static int COMPRESS_QUALIDADE_RUIM = 5;
 
+    public static int COMPRESS_QUALIDADE_MEDIA = 13;
+
+    public static int COMPRESS_QUALIDADE_ALTA = 100;
 
     public static String caminhoFoto = "";
 

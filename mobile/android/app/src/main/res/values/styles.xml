@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
     <style name="MyRatingBar" parent="Widget.AppCompat.RatingBar">
         <item name="colorAccent">#a9a9a9</item>
         <item name="android:colorControlNormal">#f9a825</item>

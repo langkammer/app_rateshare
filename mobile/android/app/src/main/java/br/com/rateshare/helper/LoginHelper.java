@@ -6,10 +6,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.facebook.login.widget.LoginButton;
 
 import br.com.rateshare.R;
+
+import static android.view.View.VISIBLE;
 
 /**
  * Created by alura on 12/08/15.
@@ -19,10 +22,13 @@ public class LoginHelper {
     private final Button btnLoginNormal;
     private final LoginButton btnLoginfaceboo;
     private final Button btnLoginTwitter;
+    private final Button btnFalsoFacebook;
+
     private final Button btnEsqueciSenha;
     private final Button btnCadastrar;
     private final EditText ediEmail;
     private final EditText editPass;
+    private final ProgressBar progressBar;
 
 
     public LoginHelper(Activity act) {
@@ -33,16 +39,23 @@ public class LoginHelper {
         btnCadastrar           = act.findViewById(R.id.btnCadastrar);
         ediEmail               = act.findViewById(R.id.email);
         editPass               = act.findViewById(R.id.senha);
-        btnLoginfaceboo.setReadPermissions("email", "public_profile");
-
+        btnFalsoFacebook       = act.findViewById(R.id.btnFalsoFacebook);
+        progressBar             = act.findViewById(R.id.progressBarLogin);
     }
 
+    private void exibirProgress(boolean exibir) {
+        progressBar.setVisibility(exibir ? VISIBLE : View.GONE);
+    }
+
+    public ProgressBar getProgressBar(){ return progressBar;}
 
     public Button getBtnLoginNormal() {
         return btnLoginNormal;
     }
 
     public LoginButton getBtnLoginfacebook() {
+        btnLoginfaceboo.setReadPermissions("email", "public_profile");
+
         return btnLoginfaceboo;
     }
 
@@ -56,6 +69,10 @@ public class LoginHelper {
 
     public Button getBtnCadastrar() {
         return btnCadastrar;
+    }
+
+    public Button getBtnLoginFalso() {
+        return btnFalsoFacebook;
     }
 
     public EditText getEdiEmail(){

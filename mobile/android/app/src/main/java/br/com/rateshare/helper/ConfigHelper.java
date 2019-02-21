@@ -1,19 +1,17 @@
 package br.com.rateshare.helper;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-
-import java.io.File;
-
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 import br.com.rateshare.R;
 import br.com.rateshare.model.User;
+
 
 /**
  * Created by alura on 12/08/15.
@@ -25,6 +23,7 @@ public class ConfigHelper {
     private final RadioButton radio_nao;
     private final TextView labelNome;
     private final EditText editEmail;
+    private final Button btnSalvar;
     private User user;
 
     public ConfigHelper(View view) {
@@ -33,23 +32,20 @@ public class ConfigHelper {
         labelNome = view.findViewById(R.id.text_cfg_label_nome);
         editEmail = view.findViewById(R.id.edittext_cfg_email);
         perfilFoto = view.findViewById(R.id.config_perfil_foto);
+        btnSalvar = view.findViewById(R.id.form_salvar_config);
     }
 
     public void preencheFormulario(User userCfg) {
-
         user = userCfg;
-
-
     }
 
-    public void carregaImagem(String caminhoFoto) {
-        if (caminhoFoto != null) {
-            Log.i("FOTO ",caminhoFoto);
-            File imgFile = new File(caminhoFoto);
-            Bitmap imageBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            getPerfilFoto().setImageBitmap(imageBitmap);
+    public void carregaImagem(FirebaseUser user) {
+        if (user != null) {
+            Picasso.get().load(user.getPhotoUrl().toString()).into(getPerfilFoto());
+
         }
     }
+
 
 
     public ImageView getPerfilFoto() {
@@ -67,6 +63,8 @@ public class ConfigHelper {
     public TextView getLabelNome() {
         return labelNome;
     }
+
+    public Button getBtnSalvar(){ return btnSalvar; }
 
     public EditText getEditEmail() {
         return editEmail;

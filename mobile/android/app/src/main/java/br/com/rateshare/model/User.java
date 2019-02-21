@@ -51,7 +51,10 @@ public class User {
         this.nome = nome;
         this.recebeNoti = true;
         this.socialLogin = true;
-        this.tipoSocialLogin = user.getProviderData().toString();
+        if(user.getProviders().size() >= 0)
+            this.tipoSocialLogin = user.getProviders().get(0);
+        else
+            this.tipoSocialLogin = "EMAIL_SENHA";
         return this;
     }
 
