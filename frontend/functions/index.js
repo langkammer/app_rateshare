@@ -16,7 +16,8 @@ function buildHtmlWithPost (key,post,img) {
     meta: [
       // This may not be a valid combination of tags for the services you need to support;
       // they're only shown here as an example.
-      { property: 'og:url', content: 'https://rateshareteste.firebaseapp.com/ver-postagem?key=' + key   },
+      // https://rateshareteste.firebaseapp.com/postbyid/1550523303054
+      { property: 'og:url', content: 'https://rateshareteste.firebaseapp.com/postbyid/' + key   },
       { property: 'og:locale', content: "pt_BR" },
       { property: 'og:title', content: title },
       { property: 'og:description', content: post.descricao },
@@ -58,14 +59,18 @@ function buildHtmlWithPost (key,post,img) {
 
 
 exports.posts = functions.https.onRequest((req, res) => {
-  const path = req.path.split('/');
-
+  const path = req.path.split('/postbyid/');
   const postId = path;
   console.log("POST [2]", postId[1] )
   console.log("POST [1]", path)
 
-  const key = postId[2];
+  const key = postId[1];
 
+  console.log("postId[0] : ", postId[0])
+  console.log("postId[1] : ", postId[1])
+  console.log("postId[2] : ", postId[2])
+
+  
   admin.database().ref("/posts/"+key).once("value").then(
     function(snapshot) {
         const post = snapshot.val();

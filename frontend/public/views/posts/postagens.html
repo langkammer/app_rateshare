@@ -1,0 +1,29 @@
+<div class="container">
+        <div class="row">
+                <div class="col-md-3" ng-repeat="p in posts">
+                 <div class="card" ng-click="verPostagem(p)">
+                        <img class="card-img-top" src="https://firebasestorage.googleapis.com/v0/b/rateshareteste.appspot.com/o/posts%2F{{p.$id}}?alt=media" class="center-block" style="width:100%;">
+                        <div class="card-body">
+                        <div class="title-content">
+                        <h3>
+                        {{p.titulo}} 
+                        <span class="label label-default pull-right">
+                                {{p.categoria.nome}}
+
+                        </span>
+                        </h3>
+                        </div>
+                        <div class="container-post">
+                        <div class="col-md-12 listPost">
+                        <h1 class="center-block">
+                                <span uib-rating class="color-star" ng-model="p.rate" max="5" read-only="true" aria-labelledby="default-rating"></span>
+                        </h1>
+                        <p>Numero de Avaliações {{p.numAvaliacoes}} </p>
+                
+                        <h4>Descrição</h4>
+                        {{p.descricao}}
+                        </div>
+                        </div>
+                 </div>
+        </div>
+</div><!-- /container -->

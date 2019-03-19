@@ -35,3 +35,6 @@
   .color-star{
     color: #FFFF00; /* Grey text */
   }
+  .listPost{
+    background-color: rgba(0, 0, 0, 0.5);
+  }

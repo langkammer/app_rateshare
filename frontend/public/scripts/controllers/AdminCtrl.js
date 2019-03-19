@@ -33,6 +33,15 @@ angular.module('rateShareApp')
     }
 
 
+    $scope.remover = function(d){
+      d.aprovado = false;
+      $scope.posts.$remove(d).then(function() {
+        Notification.success('Sucesso ao deletar post');
+      }).catch(function(error) {
+        Notification.error('Erro ao deletar post');
+      });
+    }
+
     $scope.status = function(bolean){
       if(bolean == true){
         return 'btn-success'

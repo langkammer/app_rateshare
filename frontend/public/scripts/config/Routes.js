@@ -69,6 +69,24 @@ angular.module('rateShareApp').config(['$locationProvider','$stateProvider','$ur
           templateUrl: 'views/gerencia/post-gerencia.html',
           controller: 'AdminCtrl'
         })
+        .state('gerencia-categoria', {
+          parent: 'rateshare',
+          url: '/gerencia-categoria',
+          data: {
+            roles: ['User']
+          },
+          templateUrl: 'views/gerencia/cad-categorias.html',
+          controller: 'GerenciaCategoriasCtrl'
+        })
+        .state('gerencia-usuario', {
+          parent: 'rateshare',
+          url: '/gerencia-usuario',
+          data: {
+            roles: ['User']
+          },
+          templateUrl: 'views/gerencia/usuario.html',
+          controller: 'GerenciaUsersCtrl'
+        })
         .state('ver-post', {
           parent: 'rateshare',
           url: '/ver-postagem?key',
@@ -76,7 +94,7 @@ angular.module('rateShareApp').config(['$locationProvider','$stateProvider','$ur
             meta: {
               'title': 'Ver Post',
               'og:image': 'http://www.yourdomain.com/img/facebookimage.jpg',
-              'author': 'PawSquad',
+              'author': 'Robson',
               'og:title': 'All You Need To Know About Pet Vaccinations',
               'og:description': 'Useful information about Routine Vaccines and Boosters for dogs and cats, including start vaccines for puppies and kittens.'
             }
@@ -94,6 +112,16 @@ angular.module('rateShareApp').config(['$locationProvider','$stateProvider','$ur
             roles: []
           },
           templateUrl: 'views/login/denied.html'
+        })
+        .state('posts', {
+          parent: 'rateshare',
+          url: '/postagens',
+          data: {
+            roles: []
+          },
+          templateUrl: 'views/posts/postagens.html',
+          controller: 'PostagensCtrl'
+
         });
        
         ngMetaProvider.useTitleSuffix(true);

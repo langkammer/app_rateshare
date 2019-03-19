@@ -12,13 +12,13 @@
         
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li>
-                  <a href="#">
+                <li ui-sref-active="active">
+                  <a ui-sref="posts">
                       <i class="fa fa-star" aria-hidden="true"></i>
                       Ver Posts
                   </a>
                 </li>
-                <li ui-sref-active="active">
+                <li ui-sref-active="active" ng-show="usuario.adm">
                   <a class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-pie-chart" aria-hidden="true"></i>
                     Administração
@@ -26,15 +26,15 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li>
-                      <a ui-sref="gerencia-post">
+                      <a ui-sref="gerencia-post" ng-show="usuario.adm">
                         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                         Gerencia.Posts
                       </a>
-                      <a ui-sref="gerencia-post">
+                      <a ui-sref="gerencia-usuario" ng-show="usuario.adm">
                         <i class="fa fa-certificate" aria-hidden="true"></i>
                         Gerencia.Users
                       </a>
-                      <a ui-sref="gerencia-post">
+                      <a ui-sref="gerencia-categoria" ng-show="usuario.adm">
                         <i class="fa fa-bookmark-o" aria-hidden="true"></i>
                         Cad.Categorias
                       </a>
@@ -42,11 +42,16 @@
                   </ul>
                 </li>
               </ul>
-              
               <ul class="nav navbar-nav navbar-right">
+                <li ng-show="userLogado">
+                    <a>
+                        {{usuario.nome}}
+                    </a>
+                  </li>
                 <li class="dropdown">
                   <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Acoes <span class="caret"></span></a>
                   <ul class="dropdown-menu">
+
                     <li><a ng-click="deslogar()"><i class="fa fa-sign-out fa-fw"></i> Sair</a></li>
                   </ul>
                 </li>

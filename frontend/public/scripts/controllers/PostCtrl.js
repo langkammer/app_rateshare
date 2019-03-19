@@ -16,10 +16,10 @@ angular.module('rateShareApp')
 
 
     
-    
+    var keyUser = "";
 
     console.log("post ctrl...")
-    
+    $scope.urlImg = "";
     var key = "";
     if($stateParams.key)
       key = $stateParams.key;
@@ -42,8 +42,10 @@ angular.module('rateShareApp')
         $scope.post = data;
         $scope.rate = _.sumBy(_.map(data.stars)) / _.map(data.stars).length;
         $scope.usuariosRating = extrairUsuario(data);
-        carregaImg(data);
+        $scope.urlImg =  "https://firebasestorage.googleapis.com/v0/b/rateshareteste.appspot.com/o/posts%2F" + key + "?alt=media"
         console.log($scope.usuariosRating);
+        keyUser = data.userKey;
+        getUserByUid(data.userKey)
       },
       function(err) {
         Notification.error("Erro ao buscar Img");
@@ -52,28 +54,21 @@ angular.module('rateShareApp')
     );
     
 
-    function carregaImg(post){
-      StorageService.getPostImg(key,
-        function(url) {
-          console.log(url);
-          $scope.urlImg = url;
-          carregaMeta(post,url);
 
-        },
-        function(err) {
-          Notification.error("Erro ao buscar Img");
-          console.log("err : " ,err);
-        }
-      );
-    }
-    
 
-    function getUserByKey(key){
+    function getUserByUid(uid){
       var dados = {};
-      GenericService.getByKey(key,"users/",
+      var keyUid = "";
+      keyUid = uid;
+      GenericService.getUid(uid,"users/",
         function(data) {
           console.log(data);
-          dados = data;
+          if(data != undefined){
+            $scope.usuarioPost = data;
+            carregaMeta(data)
+          }
+
+
         },
         function(err) {
           console.log("err : " ,err);
@@ -83,25 +78,41 @@ angular.module('rateShareApp')
       return dados;
     }
 
+   
+
     function extrairUsuario(data){
       var arrayDevolvido = []
       _.forEach(data.stars, function(value,key) {
         console.log(key,value);
-        arrayDevolvido.push({
-          user : {
-            key : key
+        GenericService.getUid(key,"users/",
+          function(data) {
+            console.log(data);
+            if(data != undefined){
+              $scope.usuarioPost = data;
+              arrayDevolvido.push({
+                user : {
+                  key : key,
+                  nome : data.nome,
+                  email : data.email 
+                },
+                nota : value
+              });
+            }
           },
-          nota : value
-        });
+          function(err) {
+            console.log("err : " ,err);
+          }
+      );
+        
       });
       return arrayDevolvido;
     }
     
    
-    function carregaMeta(post,urlImg){
-      ngMeta.setTitle("asdfasdfasdf"); //Title = Eluvium | Playlist
-      ngMeta.setTag('author', 'Rate Share');
-      ngMeta.setTag('image', "asdfasdfasdf");
+    function carregaMeta(post){
+      ngMeta.setTitle(post.titulo); //Title = Eluvium | Playlist
+      ngMeta.setTag('author', $scope.usuarioPost.nome);
+      ngMeta.setTag('image', $scope.urlImg);
       ngMeta.setTag('og:locale',"asdfasdfasdf")
       ngMeta.setTag('og:title',"asdfasdfasdf")
       ngMeta.setTag('og:description',"asdfasdfasdf")

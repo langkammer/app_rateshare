@@ -12,6 +12,10 @@
       getByKey : function (key,servicePosts, successCallback, errorCallback) {
         // retorna firebase storate by keyPost
         request.getByKey(key,servicePosts, successCallback, errorCallback);
+      },
+      getUid : function (key,servicePosts, successCallback, errorCallback) {
+        // retorna firebase storate by keyPost
+        request.getByUid(key,servicePosts, successCallback, errorCallback);
       }
  
 

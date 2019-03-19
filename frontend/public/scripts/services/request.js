@@ -83,6 +83,32 @@
 			});
 		};
 		
+		request.getByUid = function (uid,servicePosts, successCallback, errorCallback) {
+			
+			var block = new BlockUtil();
+
+			console.log("acessou service ")
+			block.block();
+			var ref = firebase.database().ref(servicePosts);
+
+
+			
+			var list =$firebaseArray(ref.orderByChild("uid").equalTo(uid));
+			
+			list.$loaded().then(
+			function(sucess) {	
+				block.unBlock();
+				if(list.length >0)
+					return successCallback(list[0]);
+				else
+					return successCallback({})
+				
+			},
+			function(errr){
+				block.unBlock();
+				errorCallback(errr);
+			});
+		};
 
 		return request;
 

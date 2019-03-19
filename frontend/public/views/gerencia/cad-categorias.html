@@ -1,0 +1,63 @@
+<div class="container">
+        <h1>Gerenciar Categorias</h1>
+        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" ng-click="editInclui()">Nova Categoria</button>
+
+        <table class="table">
+                <thead>
+                   <tr>
+                        <th>Categoria</th>
+                        <th>Data</th>
+                        <th></th>
+                   </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="c in categorias" >
+                        <td ng-class="status(p.aprovado)">{{ c.nome }}</td>
+                        <td ng-class="status(p.aprovado)">{{ c.data }}</td>
+                        <td>
+                          <button type="button" class="btn btn-danger" ng-click="deletar(c)">Deletar</button>
+                          <button type="button" class="btn btn-primary" ng-click="editInclui(c.$id)">Edit</button>
+                        </td>
+                </tr>
+                
+                </tbody>
+        </table>
+</div><!-- /container -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalCategoria" tabindex="-1" role="dialog" aria-labelledby="modalCategoriaM">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalCategoriaM">Nova Categoria</h4>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid bd-example-row">
+                <div class="container-fluid bd-example-row">
+                        <div class="form-group col-md-12">
+                                <div class="col-md-2">Nome Categoria</div>
+                                <div class="form-group col-md-10">
+                                <input type="text" class="form-control" placeholder="Produto" ng-model="categoria.nome"> 
+                                </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                                <div class="col-md-2">Descricao Categoria</div>
+                                <div class="form-group col-md-10">
+                                <textarea type="text" class="form-control" ng-model="categoria.descricao"> </textarea>               
+                                </div>
+                        </div>
+                </div>     
+        </div>
+      </div>
+      <div class="modal-footer">                        
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" ng-click="salvar()">Salvar</button>
+      </div>
+    </div>
+
+  </div>
+</div>

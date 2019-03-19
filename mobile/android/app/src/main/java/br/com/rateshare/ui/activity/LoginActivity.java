@@ -71,9 +71,11 @@ public class LoginActivity extends AppCompatActivity {
         final LoginHelper helper = new LoginHelper(this);
         Intent i = getIntent();
         Bundle extras = i.getExtras();
-        if(extras.containsKey("facebook_deslogou")) {
-            helper.getBtnLoginfacebook().performClick();
+        if( i.getExtras()!=null){
+            if(extras.containsKey("facebook_deslogou")) {
+                helper.getBtnLoginfacebook().performClick();
 
+            }
         }
         setHelper(helper);
 

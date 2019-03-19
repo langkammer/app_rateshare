@@ -21,7 +21,7 @@
     ],
     "rewrites": [
       {
-        "source": "**/ver-postagem/**",
+        "source": "**/postbyid/**",
         "function": "posts"
       },
       {

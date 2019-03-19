@@ -22,7 +22,7 @@
     <div class="col-md-6">
         <div class="row">
           <p>Data Postagem  : {{post.data}}</p>
-          <p>Key  Postagem  : {{post.key}}</p>
+          <p>Usuario Postagem  : {{usuarioPost.nome}}</p>
           <table class="table">
               <thead>
                  <tr>
@@ -32,7 +32,7 @@
               </thead>
               <tbody>
               <tr ng-repeat="u in usuariosRating" >
-                      <td>{{ u.user.key }}</td>
+                      <td>{{ u.user.nome }}</td>
                       <td>{{ u.nota }}</td>
 
               </tr>
@@ -41,7 +41,7 @@
 
               
         </table>
-        <button type="button" class="btn btn-info" ng-click="compartilhar(p)">Compartilhar</button>
+        <!-- <button type="button" class="btn btn-info" ng-click="compartilhar(p)">Compartilhar</button> -->
 
     </div>
   </div>
